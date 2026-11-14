@@ -91,6 +91,7 @@ private let englishTable: [String: String] = [
     "이번 달": "This month",
     "오늘": "Today",
     "마지막 %@": "Last %@",
+    "어제 이맘때": "Yesterday",
     "이달 하루 평균": "Daily average this month",
     "%@ 하루 평균": "Daily average in %@",
     "합계 %d개비": "Total %d",

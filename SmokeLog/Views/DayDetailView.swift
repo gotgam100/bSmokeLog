@@ -9,6 +9,8 @@ struct DayDetailView: View {
 
     @Environment(\.modelContext) private var context
     @Query private var entries: [SmokeEntry]
+    /// 전날 기록 ('어제 이맘때' 비교용)
+    @Query private var previousEntries: [SmokeEntry]
     @State private var newTime: Date
     @State private var newMemo = ""
     @State private var editMode: EditMode = .inactive
@@ -32,6 +34,8 @@ struct DayDetailView: View {
             sort: \SmokeEntry.timestamp,
             order: .reverse
         )
+        let prevStart = cal.date(byAdding: .day, value: -1, to: start) ?? start.addingTimeInterval(-86_400)
+        _previousEntries = Query(filter: #Predicate<SmokeEntry> { $0.timestamp >= prevStart && $0.timestamp < start })
         let isToday = cal.isDateInToday(start)
         let noon = cal.date(bySettingHour: 12, minute: 0, second: 0, of: start) ?? start
         _newTime = State(initialValue: isToday ? .now : noon)
@@ -44,11 +48,18 @@ struct DayDetailView: View {
 
     private var isEditing: Bool { editMode.isEditing }
 
+    /// 오늘이면 어제 지금 시각까지의 개수, 지난 날이면 전날 하루 전체
+    private var previousCount: Int {
+        guard Calendar.app.isDateInToday(start) else { return previousEntries.count }
+        let cutoff = Date.now.addingTimeInterval(-86_400)
+        return previousEntries.filter { $0.timestamp <= cutoff }.count
+    }
+
     var body: some View {
         NavigationStack {
             List(selection: $selection) {
                 Section {
-                    DayClockView(entries: entries, dayStart: start, latest: latestAllowed) { entry, date in
+                    DayClockView(entries: entries, dayStart: start, latest: latestAllowed, previousCount: previousCount) { entry, date in
                         entry.timestamp = date
                     } onAdd: { date in
                         withAnimation { context.insert(SmokeEntry(timestamp: date, kind: KindStore.defaultKind(context))) }
