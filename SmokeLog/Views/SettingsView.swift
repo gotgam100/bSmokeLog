@@ -184,10 +184,15 @@ struct SettingsView: View {
 
                 Section(L("정보")) {
                     LabeledContent(L("버전"), value: appVersion)
-                    // TODO: 약관 페이지가 준비되면 링크로 바꾼다
-                    LabeledContent(L("이용약관 및 정책")) {
-                        Text(L("준비 중"))
-                            .foregroundStyle(.tertiary)
+                    Link(destination: Self.policyURL) {
+                        HStack {
+                            Text(L("이용약관 및 정책"))
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            Image(systemName: "arrow.up.right")
+                                .font(.footnote)
+                                .foregroundStyle(.tertiary)
+                        }
                     }
                     Link(destination: Self.otherAppsURL) {
                         HStack {
@@ -245,6 +250,9 @@ struct SettingsView: View {
             defaultKindID = first.id.uuidString
         }
     }
+
+    /// 개인정보 처리방침·이용약관·고객지원 페이지 (GitHub Pages)
+    private static let policyURL = URL(string: "https://gotgam100.github.io/bSmokeLog/")!
 
     /// 앱스토어에서 개발자 이름으로 검색한 화면
     private static let otherAppsURL = URL(string: "itms-apps://search.itunes.apple.com/WebObjects/MZSearch.woa/wa/search?media=software&term=Seunghwa%20Baek")!

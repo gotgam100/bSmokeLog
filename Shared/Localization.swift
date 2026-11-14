@@ -191,7 +191,6 @@ private let englishTable: [String: String] = [
     "정보": "About",
     "버전": "Version",
     "이용약관 및 정책": "Terms & Policies",
-    "준비 중": "Coming soon",
     "개발자의 다른 앱": "More apps by the developer",
     "알림이 꺼져 있어요": "Notifications are off",
     "아이폰 설정 > 알림에서 B흡연로그를 허용해 주세요.": "Allow notifications for B Smoke Log in iPhone Settings > Notifications.",
