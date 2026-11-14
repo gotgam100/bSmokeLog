@@ -55,6 +55,8 @@ enum WeeklySummary {
             predicate: #Predicate { $0.timestamp >= since },
             sortBy: [SortDescriptor(\.timestamp)]
         ))) ?? []
+        // 합계에서 뺀 날은 기록도 날수도 세지 않는다
+        let excluded = ExcludedDay.days((try? context.fetch(FetchDescriptor<ExcludedDay>())) ?? [])
         var firstDescriptor = FetchDescriptor<SmokeEntry>(sortBy: [SortDescriptor(\.timestamp)])
         firstDescriptor.fetchLimit = 1
         guard let first = (try? context.fetch(firstDescriptor))?.first.map({ cal.startOfDay(for: $0.timestamp) }) else {
@@ -66,9 +68,13 @@ enum WeeklySummary {
             let today = min(cal.startOfDay(for: .now), end)
             guard from <= today else { return nil }
             let days = (cal.dateComponents([.day], from: from, to: today).day ?? 0) + 1
+                - excluded.filter { $0 >= from && $0 <= today }.count
+            guard days > 0 else { return nil }
             let until = cal.date(byAdding: .day, value: 1, to: today) ?? today.addingTimeInterval(86_400)
-            let count = all.filter { $0.timestamp >= from && $0.timestamp < until }.count
-            return Double(count) / Double(max(days, 1))
+            let count = all.filter {
+                $0.timestamp >= from && $0.timestamp < until && !excluded.contains(cal.startOfDay(for: $0.timestamp))
+            }.count
+            return Double(count) / Double(days)
         }
 
         guard let now = average(from: weekStart, to: sunday) else {

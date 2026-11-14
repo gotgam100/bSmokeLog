@@ -21,6 +21,7 @@
 		745E7E52343E6529C16832BA /* SmokeKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA23360672A4A1510CF6AAF /* SmokeKind.swift */; };
 		7694930ACB5ABD92CCDACB92 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A7F35D9BC614A3F98F312 /* AppStore.swift */; };
 		7BFC56AC270A8BA8E8D36144 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977330D169C1130012D124D4 /* TodayView.swift */; };
+		9FBF7560004538B1301E3362 /* ExcludedDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2B0D65100DBB34D080EDE9 /* ExcludedDay.swift */; };
 		BFA803E3E04AB4E22BBFA716 /* AddSmokeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BC3575D56BB2D41326A2A9 /* AddSmokeIntent.swift */; };
 		C11F74B36D2841FCF128D590 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD826EDCB8D77059FBFB5313 /* SettingsView.swift */; };
 		C204854DB34563344F49DDC2 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27AE3270309B848A314978B /* Localization.swift */; };
@@ -30,6 +31,7 @@
 		DFD9DF694EE8DC99E5C263C4 /* SmokeKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA23360672A4A1510CF6AAF /* SmokeKind.swift */; };
 		E045DD7C668645001AA2B9DB /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73247D43809D3D0AA0FCF158 /* CalendarView.swift */; };
 		E320D2274A2804DA35D86441 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6632A7673C864C35E59528D3 /* InfoPlist.strings */; };
+		E711CEC613FFB397C3559D10 /* ExcludedDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2B0D65100DBB34D080EDE9 /* ExcludedDay.swift */; };
 		EE51358D16A6BE42BF71D179 /* SmokeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE1BE94E998F35C68C4167E /* SmokeEntry.swift */; };
 		F36119E956A8853314BC9167 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0D97614A7FBE78EFC04A47 /* DayDetailView.swift */; };
 		F3F66E6F23EDE09EB30FFE13 /* DebugTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBEB4567B84C597CBBF4771 /* DebugTools.swift */; };
@@ -69,7 +71,7 @@
 		2FA4E3FC4B8AB058080BA629 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3BA23360672A4A1510CF6AAF /* SmokeKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeKind.swift; sourceTree = "<group>"; };
 		4360FF5C3FE169857D6A426B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		4A295B43DCACCD2F893F0AF8 /* SmokeLogWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SmokeLogWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A295B43DCACCD2F893F0AF8 /* SmokeLogWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SmokeLogWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BC8B9B93BA1F0CBD90BFC11 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		630A3F3A0B76B968D03FBD3A /* SmokeLogWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeLogWidget.swift; sourceTree = "<group>"; };
 		70AD5506469E5AD1DD0273FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -80,10 +82,11 @@
 		977330D169C1130012D124D4 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		9F5F77FF8F638CD3DD4E83BE /* AppChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppChrome.swift; sourceTree = "<group>"; };
 		A10B9D9D92625CCA14441876 /* WeeklySummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklySummary.swift; sourceTree = "<group>"; };
+		BB2B0D65100DBB34D080EDE9 /* ExcludedDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExcludedDay.swift; sourceTree = "<group>"; };
 		BC8A12B0E5ECED6DEA35C1FA /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CC66AEEC1798404CD2807335 /* SmokeLogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeLogApp.swift; sourceTree = "<group>"; };
 		D27AE3270309B848A314978B /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
-		D2ACA8740A7BFFD4E9889841 /* SmokeLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmokeLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2ACA8740A7BFFD4E9889841 /* SmokeLog.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SmokeLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E0731E6998534B5026B704 /* DayClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayClockView.swift; sourceTree = "<group>"; };
 		DC0D97614A7FBE78EFC04A47 /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
 		DD826EDCB8D77059FBFB5313 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -159,6 +162,7 @@
 			children = (
 				F2BC3575D56BB2D41326A2A9 /* AddSmokeIntent.swift */,
 				E68A7F35D9BC614A3F98F312 /* AppStore.swift */,
+				BB2B0D65100DBB34D080EDE9 /* ExcludedDay.swift */,
 				EF92C3314328923C5802F807 /* Helpers.swift */,
 				D27AE3270309B848A314978B /* Localization.swift */,
 				7EE1BE94E998F35C68C4167E /* SmokeEntry.swift */,
@@ -278,6 +282,7 @@
 				C9F7E617F06EFAE24B77FFBC /* DayClockView.swift in Sources */,
 				F36119E956A8853314BC9167 /* DayDetailView.swift in Sources */,
 				F3F66E6F23EDE09EB30FFE13 /* DebugTools.swift in Sources */,
+				E711CEC613FFB397C3559D10 /* ExcludedDay.swift in Sources */,
 				24114440CD3FE594ADD7EC5F /* Helpers.swift in Sources */,
 				C204854DB34563344F49DDC2 /* Localization.swift in Sources */,
 				6EED72162969F31360144438 /* ScreenTitle.swift in Sources */,
@@ -297,6 +302,7 @@
 			files = (
 				BFA803E3E04AB4E22BBFA716 /* AddSmokeIntent.swift in Sources */,
 				57CD5E8175303BD3BA476AA1 /* AppStore.swift in Sources */,
+				9FBF7560004538B1301E3362 /* ExcludedDay.swift in Sources */,
 				D37282FF200EE4E551371D09 /* Helpers.swift in Sources */,
 				D488F558530B8EFB91F84F9C /* Localization.swift in Sources */,
 				EE51358D16A6BE42BF71D179 /* SmokeEntry.swift in Sources */,
@@ -400,7 +406,6 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SmokeLogWidget/SmokeLogWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SB2Z6HL579;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmokeLogWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "B흡연로그";
@@ -486,7 +491,6 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SmokeLogWidget/SmokeLogWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SB2Z6HL579;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmokeLogWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "B흡연로그";
@@ -509,7 +513,6 @@
 				CODE_SIGN_ENTITLEMENTS = SmokeLog/SmokeLog.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SB2Z6HL579;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmokeLog/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "B흡연로그";
@@ -533,7 +536,6 @@
 				CODE_SIGN_ENTITLEMENTS = SmokeLog/SmokeLog.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SB2Z6HL579;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmokeLog/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "B흡연로그";

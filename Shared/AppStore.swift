@@ -41,10 +41,12 @@ enum AppStore {
     }
 
     /// 앱용 저장소. iCloud 설정이 켜져 있으면 iCloud로 동기화하고, 안 되면 기기에만 저장한다.
+    /// 앱·위젯이 같은 파일을 열므로 스키마도 한곳에서 정한다
+    static let schema = Schema([SmokeEntry.self, SmokeKind.self, ExcludedDay.self])
+
     static func makeAppContainer() throws -> ModelContainer {
         migrateLegacyStoreIfNeeded()
         migrateDefaultsIfNeeded()
-        let schema = Schema([SmokeEntry.self, SmokeKind.self])
         let wantsCloud = defaults.object(forKey: Key.iCloudSync) as? Bool ?? true
         // iCloud에 로그인돼 있지 않은데 동기화를 켜면 실행할 때 화면이 몇 초씩 멈춘다.
         // 지난번 실행에서 iCloud를 쓸 수 있다고 확인됐을 때만 켠다.
@@ -60,7 +62,6 @@ enum AppStore {
 
     /// 위젯·단축어용 저장소 (같은 파일을 연다. 동기화는 앱이 맡는다)
     static func makeExtensionContainer() throws -> ModelContainer {
-        let schema = Schema([SmokeEntry.self, SmokeKind.self])
         let config = ModelConfiguration(schema: schema, url: storeURL, cloudKitDatabase: .none)
         return try ModelContainer(for: schema, configurations: config)
     }
@@ -95,7 +96,6 @@ enum AppStore {
 
     @MainActor
     private static func mergeLegacyRecords(into target: URL) -> Bool {
-        let schema = Schema([SmokeEntry.self, SmokeKind.self])
         guard let old = try? ModelContainer(for: schema, configurations: ModelConfiguration(schema: schema, url: legacyStoreURL, cloudKitDatabase: .none)),
               let new = try? ModelContainer(for: schema, configurations: ModelConfiguration(schema: schema, url: target, cloudKitDatabase: .none)) else {
             return false

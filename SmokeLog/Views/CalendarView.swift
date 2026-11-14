@@ -1,27 +1,6 @@
 import SwiftUI
 import SwiftData
 
-/// 복사해 둔 하루 기록. 날짜와 무관하게 "그 날 0시부터 몇 초 뒤"로 저장해서 다른 날에 붙여넣는다.
-struct DayClipboard {
-    let sourceDay: Date
-    let items: [Item]
-
-    struct Item {
-        let offset: TimeInterval
-        let memo: String
-        /// 종류 자체가 아니라 id만 들고 있다가, 붙여넣을 때 다시 찾는다(그 사이 종류가 지워졌을 수 있음).
-        let kindID: UUID?
-    }
-
-    /// 하루치 기록을 그 날 0시 기준으로 담는다.
-    static func make(from entries: [SmokeEntry], dayStart: Date) -> DayClipboard {
-        DayClipboard(
-            sourceDay: dayStart,
-            items: entries.map { Item(offset: $0.timestamp.timeIntervalSince(dayStart), memo: $0.memo, kindID: $0.kind?.id) }
-        )
-    }
-}
-
 struct CalendarView: View {
     @Environment(\.modelContext) private var context
     @AppStorage("hapticsEnabled") private var hapticsEnabled = true
@@ -33,8 +12,8 @@ struct CalendarView: View {
     @Environment(\.openDay) private var openDay
     @State private var toast: ToastInfo?
     @State private var addCount = 0
-    @State private var clipboard: DayClipboard?
-    @State private var pasteTarget: Date?
+    /// 합계에서 뺀 날들 (달력 표시용)
+    @Query private var excludedDays: [ExcludedDay]
 
     private var cal: Calendar { .app }
 
@@ -64,21 +43,20 @@ struct CalendarView: View {
                                 month: month,
                                 now: now,
                                 dailyLimit: dailyLimit,
-                                clipboard: clipboard,
+                                excluded: ExcludedDay.days(excludedDays),
                                 onTap: { day in
                                     if day <= now { openDay(day) }
                                 },
                                 onAdd: add(to:),
                                 onRemove: removeLatest(on:),
-                                onCopy: copy,
-                                onPaste: requestPaste(to:)
+                                onToggleExclude: toggleExclude
                             )
                             .id(firstWeekday)
                         }
                         .padding(12)
                         .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 20))
 
-                        Text(L("날짜를 누르면 그날 기록 보기 · 꾹 누르면 추가, 삭제, 복사, 붙여넣기"))
+                        Text(L("날짜를 누르면 그날 기록 보기 · 꾹 누르면 추가, 삭제, 합계 제외"))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
@@ -97,15 +75,6 @@ struct CalendarView: View {
                         .padding()
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
-            }
-            .confirmationDialog(
-                L("이 날에 이미 기록이 있어요"),
-                isPresented: Binding(get: { pasteTarget != nil }, set: { if !$0 { pasteTarget = nil } }),
-                titleVisibility: .visible,
-                presenting: pasteTarget
-            ) { day in
-                Button(L("기존 기록을 지우고 붙여넣기"), role: .destructive) { paste(to: day, replace: true) }
-                Button(L("기존 기록에 더하기")) { paste(to: day, replace: false) }
             }
             .sensoryFeedback(trigger: addCount) { _, _ in hapticsEnabled ? .increase : nil }
         }
@@ -178,48 +147,13 @@ struct CalendarView: View {
         })
     }
 
-    private func copy(_ day: Date) {
+    /// 그 날을 합계·통계에서 빼거나 다시 넣는다. 기록은 그대로다.
+    private func toggleExclude(_ day: Date) {
         let start = cal.startOfDay(for: day)
-        let dayEntries = entries(on: day)
-        guard !dayEntries.isEmpty else { return }
-        clipboard = .make(from: dayEntries, dayStart: start)
-        showToast(ToastInfo(message: L("%@ 기록 %d개를 복사했어요", shortDate(start), dayEntries.count)))
-    }
-
-    private func requestPaste(to day: Date) {
-        guard clipboard != nil else { return }
-        if entries(on: day).isEmpty {
-            paste(to: day, replace: false)
-        } else {
-            pasteTarget = day
-        }
-    }
-
-    private func paste(to day: Date, replace: Bool) {
-        guard let clipboard else { return }
-        let start = cal.startOfDay(for: day)
-        let now = Date.now
-        withAnimation(.snappy) {
-            if replace {
-                for e in entries(on: day) { context.delete(e) }
-            }
-        }
-        var inserted: [SmokeEntry] = []
-        for item in clipboard.items {
-            let time = start.addingTimeInterval(item.offset)
-            guard time <= now else { continue } // 아직 오지 않은 시각은 건너뜀
-            let entry = SmokeEntry(timestamp: time, memo: item.memo, kind: KindStore.kind(id: item.kindID, in: context))
-            context.insert(entry)
-            inserted.append(entry)
-        }
-        let skipped = clipboard.items.count - inserted.count
-        var message = L("%@에 %d개를 붙여넣었어요", shortDate(start), inserted.count)
-        if skipped > 0 { message += L(" (미래 시각 %d개 제외)", skipped) }
-        let ids = inserted.map(\.persistentModelID)
-        let undo: (() -> Void)? = replace ? nil : { [context] in
-            withAnimation(.snappy) { KindStore.deleteEntries(ids, in: context) }
-        }
-        showToast(ToastInfo(message: message, undo: undo))
+        let nowExcluded = withAnimation(.snappy) { ExcludedDay.toggle(start, in: context) }
+        showToast(ToastInfo(message: nowExcluded
+                            ? L("%@ 기록을 합계에서 뺐어요", shortDate(start))
+                            : L("%@ 기록을 합계에 다시 넣었어요", shortDate(start))))
     }
 
     private func showToast(_ info: ToastInfo) {
@@ -262,6 +196,7 @@ private struct MonthSummary: View {
     let onTap: () -> Void
     /// 지난달 1일부터 이달 말까지
     @Query private var entries: [SmokeEntry]
+    @Query private var excludedDays: [ExcludedDay]
 
     init(month: Date, now: Date, onTap: @escaping () -> Void) {
         self.month = month
@@ -276,13 +211,19 @@ private struct MonthSummary: View {
     var body: some View {
         let cal = Calendar.app
         let isCurrent = cal.isDate(month, equalTo: now, toGranularity: .month)
-        let thisCount = entries.filter { $0.timestamp >= month }.count
-        let prevCount = entries.count - thisCount
+        // 합계에서 뺀 날은 기록도, 날수도 세지 않는다
+        let excluded = ExcludedDay.days(excludedDays)
+        let counted = entries.filter { !excluded.contains(cal.startOfDay(for: $0.timestamp)) }
+        let thisCount = counted.filter { $0.timestamp >= month }.count
+        let prevCount = counted.count - thisCount
         // 이번 달은 오늘까지 지난 날수로, 지난 달은 그 달 날수로 나눈다
         let daysInMonth = cal.range(of: .day, in: .month, for: month)?.count ?? 30
-        let days = isCurrent ? cal.component(.day, from: now) : daysInMonth
         let prevMonth = cal.date(byAdding: .month, value: -1, to: month) ?? month
-        let prevDays = cal.range(of: .day, in: .month, for: prevMonth)?.count ?? 30
+        let today = cal.startOfDay(for: now)
+        let days = (isCurrent ? cal.component(.day, from: now) : daysInMonth)
+            - excluded.filter { $0 >= month && $0 <= today && cal.isDate($0, equalTo: month, toGranularity: .month) }.count
+        let prevDays = (cal.range(of: .day, in: .month, for: prevMonth)?.count ?? 30)
+            - excluded.filter { cal.isDate($0, equalTo: prevMonth, toGranularity: .month) }.count
         let average = Double(thisCount) / Double(max(days, 1))
         let prevAverage = Double(prevCount) / Double(max(prevDays, 1))
 
@@ -332,12 +273,12 @@ private struct MonthGrid: View {
     let month: Date
     let now: Date
     let dailyLimit: Int
-    let clipboard: DayClipboard?
+    /// 합계에서 뺀 날들 (0시 기준)
+    let excluded: Set<Date>
     let onTap: (Date) -> Void
     let onAdd: (Date) -> Void
     let onRemove: (Date) -> Void
-    let onCopy: (Date) -> Void
-    let onPaste: (Date) -> Void
+    let onToggleExclude: (Date) -> Void
 
     /// 보이는 달의 기록만 읽는다 (몇 년치가 쌓여도 한 달치만)
     @Query private var monthEntries: [SmokeEntry]
@@ -345,18 +286,17 @@ private struct MonthGrid: View {
     private let cal = Calendar.app
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 4), count: 7)
 
-    init(month: Date, now: Date, dailyLimit: Int, clipboard: DayClipboard?,
+    init(month: Date, now: Date, dailyLimit: Int, excluded: Set<Date>,
          onTap: @escaping (Date) -> Void, onAdd: @escaping (Date) -> Void, onRemove: @escaping (Date) -> Void,
-         onCopy: @escaping (Date) -> Void, onPaste: @escaping (Date) -> Void) {
+         onToggleExclude: @escaping (Date) -> Void) {
         self.month = month
         self.now = now
         self.dailyLimit = dailyLimit
-        self.clipboard = clipboard
+        self.excluded = excluded
         self.onTap = onTap
         self.onAdd = onAdd
         self.onRemove = onRemove
-        self.onCopy = onCopy
-        self.onPaste = onPaste
+        self.onToggleExclude = onToggleExclude
         let start = month
         let end = Calendar.app.date(byAdding: .month, value: 1, to: month) ?? month
         var descriptor = FetchDescriptor<SmokeEntry>(predicate: #Predicate { $0.timestamp >= start && $0.timestamp < end })
@@ -409,6 +349,7 @@ private struct MonthGrid: View {
                     let count = counts[day] ?? 0
                     let isToday = cal.isDate(day, inSameDayAs: now)
                     let isFuture = day > now
+                    let isExcluded = excluded.contains(day)
                     Button { onTap(day) } label: {
                         DayCell(
                             day: cal.component(.day, from: day),
@@ -418,7 +359,8 @@ private struct MonthGrid: View {
                             isSunday: cal.component(.weekday, from: day) == 1,
                             intensity: Double(count) / Double(maxCount),
                             slices: slices[day] ?? [],
-                            overLimit: dailyLimit > 0 && count > dailyLimit
+                            overLimit: dailyLimit > 0 && count > dailyLimit,
+                            excluded: isExcluded
                         )
                     }
                     .buttonStyle(DayButtonStyle())
@@ -433,20 +375,15 @@ private struct MonthGrid: View {
                             }
                             .disabled(count == 0)
                             Divider()
-                            Button { onCopy(day) } label: {
-                                Label(L("복사"), systemImage: "doc.on.doc")
-                            }
-                            .disabled(count == 0)
-                            if let clipboard {
-                                Button { onPaste(day) } label: {
-                                    Label(L("붙여넣기"), systemImage: "doc.on.clipboard")
-                                    Text(L("%@ 기록", clipboard.sourceDay.formatted(Date.FormatStyle(locale: .app).month().day())))
-                                }
+                            // 여행·아픈 날처럼 평소와 다른 날은 평균·합계에서 뺄 수 있다
+                            Button { onToggleExclude(day) } label: {
+                                Label(isExcluded ? L("합계에 포함") : L("합계 제외"),
+                                      systemImage: isExcluded ? "checkmark.circle" : "circle.dashed")
                             }
                         }
                     }
                     .accessibilityLabel(Text(day, format: .dateTime.month().day()))
-                    .accessibilityValue(L("%d개비", count))
+                    .accessibilityValue(isExcluded ? L("%d개비", count) + ", " + L("합계에서 제외") : L("%d개비", count))
                     .accessibilityHint(L("누르면 기록을 보고, 길게 누르면 추가하거나 삭제합니다"))
                 }
             }
@@ -472,6 +409,8 @@ private struct DayCell: View {
     let slices: [KindSlice]
     /// 하루 기준선을 넘었으면 숫자 색만 살짝 바꾼다
     let overLimit: Bool
+    /// 합계·통계에서 뺀 날: 점선 테두리에 숫자를 흐리게
+    let excluded: Bool
 
     private var dateColor: Color {
         if isSunday { return .red }
@@ -480,12 +419,13 @@ private struct DayCell: View {
 
     /// 개비 수는 요일과 상관없이 같은 색 (일요일 빨강은 날짜에만)
     private var countColor: Color {
+        if excluded { return .secondary }
         if overLimit { return Color(red: 0.85, green: 0.1, blue: 0.15) }
         return count > 0 ? .primary : .brand
     }
 
     private var badgeFill: Color {
-        if isFuture { return .clear }
+        if isFuture || excluded { return .clear }
         if count == 0 { return Color(.tertiarySystemFill) }
         return Color.brand.opacity(0.15 + 0.4 * intensity)
     }
@@ -498,13 +438,16 @@ private struct DayCell: View {
 
             ZStack {
                 Circle().fill(badgeFill)
-                if count > 0 {
+                if excluded {
+                    Circle().strokeBorder(Color.secondary, style: StrokeStyle(lineWidth: 1.5, dash: [3, 3]))
+                } else if count > 0 {
                     KindRing(slices: slices)
                 } else if isToday {
                     Circle().strokeBorder(Color.brand, lineWidth: 2)
                 }
                 Text(count > 0 ? "\(count)" : "")
-                    .font(.subheadline.weight(overLimit ? .heavy : .semibold).monospacedDigit())
+                    .font(.subheadline.weight(overLimit && !excluded ? .heavy : .semibold).monospacedDigit())
+                    .strikethrough(excluded, color: .secondary)
                     .foregroundStyle(countColor)
                     .contentTransition(.numericText())
             }

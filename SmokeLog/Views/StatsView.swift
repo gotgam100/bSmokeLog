@@ -29,6 +29,8 @@ struct StatsView: View {
     @State private var memo = StatsMemo()
     @State private var saveToken = 0
     @Query(sort: \SmokeKind.order) private var kinds: [SmokeKind]
+    /// 합계에서 뺀 날들
+    @Query private var excludedDays: [ExcludedDay]
     @State private var range: StatsRange = .week
     /// nil = 전체, 아니면 그 종류만
     @State private var kindFilter: UUID?
@@ -37,11 +39,12 @@ struct StatsView: View {
     var body: some View {
         NavigationStack {
             let (series, stats) = memo.value(
-                key: "\(entries.count)-\(entries.last?.timestamp.timeIntervalSince1970 ?? 0)-\(range.rawValue)-\(kindFilter?.uuidString ?? "all")-\(kinds.map(\.colorKey))-\(saveToken)-\(AppLanguage.current.rawValue)"
+                key: "\(entries.count)-\(entries.last?.timestamp.timeIntervalSince1970 ?? 0)-\(range.rawValue)-\(kindFilter?.uuidString ?? "all")-\(kinds.map(\.colorKey))-\(saveToken)-\(AppLanguage.current.rawValue)-\(excludedDays.count)-\(excludedDays.reduce(0) { $0 + $1.day.timeIntervalSince1970 })"
             ) {
                 let series = KindSeries(kinds: kinds, entries: entries)
                 let filtered = kindFilter.map { id in entries.filter { $0.kind?.id == id } } ?? entries
-                return (series, Stats(entries: filtered, days: range.rawValue, now: .now, series: series))
+                return (series, Stats(entries: filtered, days: range.rawValue, now: .now, series: series,
+                                      excluded: ExcludedDay.days(excludedDays)))
             }
             ScrollView {
                 VStack(spacing: 16) {
@@ -343,11 +346,13 @@ struct Stats {
     let weekdayByKind: [WeekdayKind]
     let kindTotals: [KindTotal]
 
-    init(entries: [SmokeEntry], days: Int, now: Date, series: KindSeries) {
+    /// - excluded: 합계에서 뺀 날들(0시). 그 날의 기록은 세지 않고, 평균을 낼 때 날수에서도 뺀다.
+    init(entries: [SmokeEntry], days: Int, now: Date, series: KindSeries, excluded: Set<Date> = []) {
         let cal = Calendar.app
         let today = cal.startOfDay(for: now)
         let start = cal.date(byAdding: .day, value: -(days - 1), to: today) ?? today
         let end = cal.date(byAdding: .day, value: 1, to: today) ?? now
+        let entries = excluded.isEmpty ? entries : entries.filter { !excluded.contains(cal.startOfDay(for: $0.timestamp)) }
 
         let times = entries.map(\.timestamp).sorted()
         let inRange = times.filter { $0 >= start && $0 < end }
@@ -356,17 +361,19 @@ struct Stats {
         isEmpty = inRange.isEmpty
         total = inRange.count
 
-        // 기간 안의 날짜 목록 (요일별 평균의 분모)
+        // 기간 안의 날짜 목록 (평균의 분모). 합계에서 뺀 날은 빠진다.
         let periodDays = (0..<days).compactMap { cal.date(byAdding: .day, value: $0, to: start) }
+            .filter { !excluded.contains($0) }
 
         let effectiveStart = max(start, firstDay ?? today)
-        trackedDays = (cal.dateComponents([.day], from: effectiveStart, to: today).day ?? 0) + 1
+        trackedDays = periodDays.filter { $0 >= effectiveStart }.count
         average = Double(total) / Double(max(trackedDays, 1))
 
         if let firstDay, firstDay < start,
            let prevStart = cal.date(byAdding: .day, value: -days, to: start) {
             let from = max(prevStart, firstDay)
-            let prevDays = cal.dateComponents([.day], from: from, to: start).day ?? 0
+            let prevDays = (cal.dateComponents([.day], from: from, to: start).day ?? 0)
+                - excluded.filter { $0 >= from && $0 < start }.count
             let prevCount = times.filter { $0 >= from && $0 < start }.count
             previousAverage = prevDays > 0 ? Double(prevCount) / Double(prevDays) : nil
         } else {
