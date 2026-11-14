@@ -1,0 +1,62 @@
+name: SmokeLog
+options:
+  knownRegions: [ko, en]
+  bundleIdPrefix: com.seunghwabaek
+  developmentLanguage: ko
+  deploymentTarget:
+    iOS: "18.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  SmokeLog:
+    type: application
+    platform: iOS
+    sources: [SmokeLog, Shared]
+    dependencies:
+      - target: SmokeLogWidget
+    entitlements:
+      path: SmokeLog/SmokeLog.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.seunghwabaek.bsmokelog]
+        com.apple.developer.icloud-container-identifiers: [iCloud.com.seunghwabaek.bsmokelog]
+        com.apple.developer.icloud-services: [CloudKit]
+        aps-environment: development
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.seunghwabaek.bsmokelog
+        GENERATE_INFOPLIST_FILE: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_KEY_CFBundleDisplayName: B흡연로그
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIUserInterfaceStyle: Dark
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        TARGETED_DEVICE_FAMILY: "1"
+        CODE_SIGN_STYLE: Automatic
+    info:
+      path: SmokeLog/Info.plist
+      properties:
+        UIBackgroundModes: [remote-notification]
+  SmokeLogWidget:
+    type: app-extension
+    platform: iOS
+    sources: [SmokeLogWidget, Shared]
+    entitlements:
+      path: SmokeLogWidget/SmokeLogWidget.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.seunghwabaek.bsmokelog]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.seunghwabaek.bsmokelog.widget
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: B흡연로그
+        TARGETED_DEVICE_FAMILY: "1"
+        CODE_SIGN_STYLE: Automatic
+        SKIP_INSTALL: YES
+    info:
+      path: SmokeLogWidget/Info.plist
+      properties:
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension

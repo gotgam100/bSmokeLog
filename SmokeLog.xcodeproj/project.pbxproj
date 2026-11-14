@@ -1,0 +1,586 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		002C9A0CA6441D16A04F4D46 /* SmokeLogWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630A3F3A0B76B968D03FBD3A /* SmokeLogWidget.swift */; };
+		096F2398F83360E949935226 /* WeeklySummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10B9D9D92625CCA14441876 /* WeeklySummary.swift */; };
+		1558FA06ACA40BEE2E9C929F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C1A6CCD8A77F01E058D6CC11 /* InfoPlist.strings */; };
+		196B7AB4FBDFBD0ACD07667E /* SmokeLogWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4A295B43DCACCD2F893F0AF8 /* SmokeLogWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		24114440CD3FE594ADD7EC5F /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF92C3314328923C5802F807 /* Helpers.swift */; };
+		326859FF14914F9A7F78DF75 /* SmokeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE1BE94E998F35C68C4167E /* SmokeEntry.swift */; };
+		3E4831953AC210C7FE838B56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70AD5506469E5AD1DD0273FF /* Assets.xcassets */; };
+		531CA94ED74A30239D06B824 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC8B9B93BA1F0CBD90BFC11 /* StatsView.swift */; };
+		57CD5E8175303BD3BA476AA1 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A7F35D9BC614A3F98F312 /* AppStore.swift */; };
+		611DF4063F732C544614A0D7 /* SmokeLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC66AEEC1798404CD2807335 /* SmokeLogApp.swift */; };
+		6EED72162969F31360144438 /* ScreenTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C36208D6F9B91795B04A78 /* ScreenTitle.swift */; };
+		745E7E52343E6529C16832BA /* SmokeKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA23360672A4A1510CF6AAF /* SmokeKind.swift */; };
+		7694930ACB5ABD92CCDACB92 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68A7F35D9BC614A3F98F312 /* AppStore.swift */; };
+		7BFC56AC270A8BA8E8D36144 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977330D169C1130012D124D4 /* TodayView.swift */; };
+		BFA803E3E04AB4E22BBFA716 /* AddSmokeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BC3575D56BB2D41326A2A9 /* AddSmokeIntent.swift */; };
+		C11F74B36D2841FCF128D590 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD826EDCB8D77059FBFB5313 /* SettingsView.swift */; };
+		C204854DB34563344F49DDC2 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27AE3270309B848A314978B /* Localization.swift */; };
+		C9F7E617F06EFAE24B77FFBC /* DayClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E0731E6998534B5026B704 /* DayClockView.swift */; };
+		D37282FF200EE4E551371D09 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF92C3314328923C5802F807 /* Helpers.swift */; };
+		D488F558530B8EFB91F84F9C /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27AE3270309B848A314978B /* Localization.swift */; };
+		DFD9DF694EE8DC99E5C263C4 /* SmokeKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA23360672A4A1510CF6AAF /* SmokeKind.swift */; };
+		E045DD7C668645001AA2B9DB /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73247D43809D3D0AA0FCF158 /* CalendarView.swift */; };
+		E320D2274A2804DA35D86441 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6632A7673C864C35E59528D3 /* InfoPlist.strings */; };
+		EE51358D16A6BE42BF71D179 /* SmokeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE1BE94E998F35C68C4167E /* SmokeEntry.swift */; };
+		F36119E956A8853314BC9167 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0D97614A7FBE78EFC04A47 /* DayDetailView.swift */; };
+		F3F66E6F23EDE09EB30FFE13 /* DebugTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBEB4567B84C597CBBF4771 /* DebugTools.swift */; };
+		F579B2BBBFF2C77300E2AEF7 /* AddSmokeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BC3575D56BB2D41326A2A9 /* AddSmokeIntent.swift */; };
+		FC1363D5F3BCFAC2989277BE /* AppChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F77FF8F638CD3DD4E83BE /* AppChrome.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7A9B054B4FADB8C9CE8591C8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 217D055513B03CA3B5D9D6B9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C8EED6ABF2DE8133509E43FB;
+			remoteInfo = SmokeLogWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D3B97337092FD6953274A3AB /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				196B7AB4FBDFBD0ACD07667E /* SmokeLogWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		18C36208D6F9B91795B04A78 /* ScreenTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenTitle.swift; sourceTree = "<group>"; };
+		1F3836C63E84D0E8C8473A17 /* SmokeLog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmokeLog.entitlements; sourceTree = "<group>"; };
+		23F67CA04D4F19B7A23E5699 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2F3F0940CAEA6E1C7F2F9845 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2FA4E3FC4B8AB058080BA629 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3BA23360672A4A1510CF6AAF /* SmokeKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeKind.swift; sourceTree = "<group>"; };
+		4360FF5C3FE169857D6A426B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4A295B43DCACCD2F893F0AF8 /* SmokeLogWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SmokeLogWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BC8B9B93BA1F0CBD90BFC11 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		630A3F3A0B76B968D03FBD3A /* SmokeLogWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeLogWidget.swift; sourceTree = "<group>"; };
+		70AD5506469E5AD1DD0273FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		73247D43809D3D0AA0FCF158 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		78B5D57AEBD5F12BAD9995F2 /* SmokeLogWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmokeLogWidget.entitlements; sourceTree = "<group>"; };
+		7EE1BE94E998F35C68C4167E /* SmokeEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeEntry.swift; sourceTree = "<group>"; };
+		82007E0A91D535B518F2A1C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		977330D169C1130012D124D4 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		9F5F77FF8F638CD3DD4E83BE /* AppChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppChrome.swift; sourceTree = "<group>"; };
+		A10B9D9D92625CCA14441876 /* WeeklySummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklySummary.swift; sourceTree = "<group>"; };
+		BC8A12B0E5ECED6DEA35C1FA /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CC66AEEC1798404CD2807335 /* SmokeLogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeLogApp.swift; sourceTree = "<group>"; };
+		D27AE3270309B848A314978B /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		D2ACA8740A7BFFD4E9889841 /* SmokeLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmokeLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4E0731E6998534B5026B704 /* DayClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayClockView.swift; sourceTree = "<group>"; };
+		DC0D97614A7FBE78EFC04A47 /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
+		DD826EDCB8D77059FBFB5313 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		DFBEB4567B84C597CBBF4771 /* DebugTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugTools.swift; sourceTree = "<group>"; };
+		E68A7F35D9BC614A3F98F312 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		EF92C3314328923C5802F807 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		F2BC3575D56BB2D41326A2A9 /* AddSmokeIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSmokeIntent.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		214A2872DB82784215934108 = {
+			isa = PBXGroup;
+			children = (
+				FFE4D1C5E2E6F9552719CD9F /* Shared */,
+				F000781A7491B1B25700988C /* SmokeLog */,
+				6385EEEE58F09598EADB24DB /* SmokeLogWidget */,
+				8E7E9751C2C55C491C336E89 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6385EEEE58F09598EADB24DB /* SmokeLogWidget */ = {
+			isa = PBXGroup;
+			children = (
+				82007E0A91D535B518F2A1C9 /* Info.plist */,
+				78B5D57AEBD5F12BAD9995F2 /* SmokeLogWidget.entitlements */,
+				630A3F3A0B76B968D03FBD3A /* SmokeLogWidget.swift */,
+				C1A6CCD8A77F01E058D6CC11 /* InfoPlist.strings */,
+			);
+			path = SmokeLogWidget;
+			sourceTree = "<group>";
+		};
+		8E7E9751C2C55C491C336E89 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2ACA8740A7BFFD4E9889841 /* SmokeLog.app */,
+				4A295B43DCACCD2F893F0AF8 /* SmokeLogWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C642843B92835EC47F1D57AA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9F5F77FF8F638CD3DD4E83BE /* AppChrome.swift */,
+				73247D43809D3D0AA0FCF158 /* CalendarView.swift */,
+				D4E0731E6998534B5026B704 /* DayClockView.swift */,
+				DC0D97614A7FBE78EFC04A47 /* DayDetailView.swift */,
+				DFBEB4567B84C597CBBF4771 /* DebugTools.swift */,
+				18C36208D6F9B91795B04A78 /* ScreenTitle.swift */,
+				DD826EDCB8D77059FBFB5313 /* SettingsView.swift */,
+				5BC8B9B93BA1F0CBD90BFC11 /* StatsView.swift */,
+				977330D169C1130012D124D4 /* TodayView.swift */,
+				A10B9D9D92625CCA14441876 /* WeeklySummary.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F000781A7491B1B25700988C /* SmokeLog */ = {
+			isa = PBXGroup;
+			children = (
+				70AD5506469E5AD1DD0273FF /* Assets.xcassets */,
+				4360FF5C3FE169857D6A426B /* Info.plist */,
+				1F3836C63E84D0E8C8473A17 /* SmokeLog.entitlements */,
+				CC66AEEC1798404CD2807335 /* SmokeLogApp.swift */,
+				6632A7673C864C35E59528D3 /* InfoPlist.strings */,
+				C642843B92835EC47F1D57AA /* Views */,
+			);
+			path = SmokeLog;
+			sourceTree = "<group>";
+		};
+		FFE4D1C5E2E6F9552719CD9F /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				F2BC3575D56BB2D41326A2A9 /* AddSmokeIntent.swift */,
+				E68A7F35D9BC614A3F98F312 /* AppStore.swift */,
+				EF92C3314328923C5802F807 /* Helpers.swift */,
+				D27AE3270309B848A314978B /* Localization.swift */,
+				7EE1BE94E998F35C68C4167E /* SmokeEntry.swift */,
+				3BA23360672A4A1510CF6AAF /* SmokeKind.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		472DE90181388EAA770CC1B3 /* SmokeLog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC9569BA735BD4E9B0CD171A /* Build configuration list for PBXNativeTarget "SmokeLog" */;
+			buildPhases = (
+				09F675967B8635061E9D52D8 /* Sources */,
+				7F28AD80AC681EFAFB7E7217 /* Resources */,
+				D3B97337092FD6953274A3AB /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				36574B8172D750DEF7F5F01A /* PBXTargetDependency */,
+			);
+			name = SmokeLog;
+			packageProductDependencies = (
+			);
+			productName = SmokeLog;
+			productReference = D2ACA8740A7BFFD4E9889841 /* SmokeLog.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C8EED6ABF2DE8133509E43FB /* SmokeLogWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C418AC994B063BDECB1D297B /* Build configuration list for PBXNativeTarget "SmokeLogWidget" */;
+			buildPhases = (
+				D427F9A5C4D468320D84D3F0 /* Sources */,
+				04E193357E5B946F5E2B92EF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmokeLogWidget;
+			packageProductDependencies = (
+			);
+			productName = SmokeLogWidget;
+			productReference = 4A295B43DCACCD2F893F0AF8 /* SmokeLogWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		217D055513B03CA3B5D9D6B9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					472DE90181388EAA770CC1B3 = {
+						ProvisioningStyle = Automatic;
+					};
+					C8EED6ABF2DE8133509E43FB = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = EF79D9D7015055F49032F080 /* Build configuration list for PBXProject "SmokeLog" */;
+			developmentRegion = ko;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+				ko,
+			);
+			mainGroup = 214A2872DB82784215934108;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 8E7E9751C2C55C491C336E89 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				472DE90181388EAA770CC1B3 /* SmokeLog */,
+				C8EED6ABF2DE8133509E43FB /* SmokeLogWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		04E193357E5B946F5E2B92EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1558FA06ACA40BEE2E9C929F /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7F28AD80AC681EFAFB7E7217 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3E4831953AC210C7FE838B56 /* Assets.xcassets in Resources */,
+				E320D2274A2804DA35D86441 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		09F675967B8635061E9D52D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F579B2BBBFF2C77300E2AEF7 /* AddSmokeIntent.swift in Sources */,
+				FC1363D5F3BCFAC2989277BE /* AppChrome.swift in Sources */,
+				7694930ACB5ABD92CCDACB92 /* AppStore.swift in Sources */,
+				E045DD7C668645001AA2B9DB /* CalendarView.swift in Sources */,
+				C9F7E617F06EFAE24B77FFBC /* DayClockView.swift in Sources */,
+				F36119E956A8853314BC9167 /* DayDetailView.swift in Sources */,
+				F3F66E6F23EDE09EB30FFE13 /* DebugTools.swift in Sources */,
+				24114440CD3FE594ADD7EC5F /* Helpers.swift in Sources */,
+				C204854DB34563344F49DDC2 /* Localization.swift in Sources */,
+				6EED72162969F31360144438 /* ScreenTitle.swift in Sources */,
+				C11F74B36D2841FCF128D590 /* SettingsView.swift in Sources */,
+				326859FF14914F9A7F78DF75 /* SmokeEntry.swift in Sources */,
+				DFD9DF694EE8DC99E5C263C4 /* SmokeKind.swift in Sources */,
+				611DF4063F732C544614A0D7 /* SmokeLogApp.swift in Sources */,
+				531CA94ED74A30239D06B824 /* StatsView.swift in Sources */,
+				7BFC56AC270A8BA8E8D36144 /* TodayView.swift in Sources */,
+				096F2398F83360E949935226 /* WeeklySummary.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D427F9A5C4D468320D84D3F0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFA803E3E04AB4E22BBFA716 /* AddSmokeIntent.swift in Sources */,
+				57CD5E8175303BD3BA476AA1 /* AppStore.swift in Sources */,
+				D37282FF200EE4E551371D09 /* Helpers.swift in Sources */,
+				D488F558530B8EFB91F84F9C /* Localization.swift in Sources */,
+				EE51358D16A6BE42BF71D179 /* SmokeEntry.swift in Sources */,
+				745E7E52343E6529C16832BA /* SmokeKind.swift in Sources */,
+				002C9A0CA6441D16A04F4D46 /* SmokeLogWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		36574B8172D750DEF7F5F01A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C8EED6ABF2DE8133509E43FB /* SmokeLogWidget */;
+			targetProxy = 7A9B054B4FADB8C9CE8591C8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6632A7673C864C35E59528D3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2FA4E3FC4B8AB058080BA629 /* en */,
+				23F67CA04D4F19B7A23E5699 /* ko */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C1A6CCD8A77F01E058D6CC11 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F3F0940CAEA6E1C7F2F9845 /* en */,
+				BC8A12B0E5ECED6DEA35C1FA /* ko */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		02AA9D383AA92CEAA2153FA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		4CDE00D01BD695E84E9D2541 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SmokeLogWidget/SmokeLogWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SB2Z6HL579;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SmokeLogWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "B흡연로그";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.seunghwabaek.bsmokelog.widget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		5901C8C1100A1FD32AFFEDCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		63FAE10B80A104FA7A8EADDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SmokeLogWidget/SmokeLogWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SB2Z6HL579;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SmokeLogWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "B흡연로그";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.seunghwabaek.bsmokelog.widget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		ADEDA2D35C422008468A5467 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SmokeLog/SmokeLog.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SB2Z6HL579;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SmokeLog/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "B흡연로그";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.seunghwabaek.bsmokelog;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		C2E1E99DC857F695263D7C0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SmokeLog/SmokeLog.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SB2Z6HL579;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SmokeLog/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "B흡연로그";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.seunghwabaek.bsmokelog;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C418AC994B063BDECB1D297B /* Build configuration list for PBXNativeTarget "SmokeLogWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CDE00D01BD695E84E9D2541 /* Debug */,
+				63FAE10B80A104FA7A8EADDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CC9569BA735BD4E9B0CD171A /* Build configuration list for PBXNativeTarget "SmokeLog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2E1E99DC857F695263D7C0A /* Debug */,
+				ADEDA2D35C422008468A5467 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EF79D9D7015055F49032F080 /* Build configuration list for PBXProject "SmokeLog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5901C8C1100A1FD32AFFEDCB /* Debug */,
+				02AA9D383AA92CEAA2153FA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 217D055513B03CA3B5D9D6B9 /* Project object */;
+}
