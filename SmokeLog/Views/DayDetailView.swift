@@ -77,7 +77,10 @@ struct DayDetailView: View {
                     }
                     .frame(maxWidth: 320)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 8)
+                    .padding(.vertical, 4)
+                    // 원형표는 카드 없이 배경 위에 바로 놓는다
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
                 } header: {
                     screenHeader
                 } footer: {

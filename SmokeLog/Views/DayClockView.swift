@@ -2,8 +2,9 @@ import SwiftUI
 import SwiftData
 import UIKit
 
-/// 방학 생활계획표처럼 24시간을 원으로 나누고, 피운 시각을 표시한다.
-/// 0시가 맨 위, 시계 방향으로 진행. 피운 시간대 칸이 칠해지고, 정확한 시각은 점으로 찍힌다.
+/// 24시간을 두꺼운 도넛 24칸으로 나누고, 피운 시각을 표시한다(히트맵).
+/// 0시가 맨 위, 시계 방향으로 진행. 피운 시간대 칸이 개수만큼 진해지고, 정확한 시각은 칸 위 점으로 찍힌다.
+/// 가운데에는 합계와 종류별 개수가 보인다.
 /// - 어디든 꾹 누르면 살짝 눌리는 느낌과 함께 메뉴(한 개비 추가 · 한 개비 삭제)가 뜬다.
 ///   고리 위면 누른 자리의 시각, 가운데면 지금 시각이 기준이 된다.
 /// - 점을 꾹 누르자마자(메뉴가 뜨기 전에) 끌면 그 기록의 시각이 바뀐다. 살짝 닿기만 해서는 안 움직인다.
@@ -40,27 +41,29 @@ struct DayClockView: View {
             let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
             let outer = size / 2
             let labelRadius = outer - 10
-            let ringRadius = outer - 24
-            let holeRadius = ringRadius * 0.38
-            let dotRadius = ringRadius - 8
+            // 두꺼운 도넛: 고리 두께와 가운데 반지름
+            let ringWidth = size * 0.2
+            let ringRadius = outer - 26 - ringWidth / 2
+            let ringOuter = ringRadius + ringWidth / 2
+            let holeRadius = ringRadius - ringWidth / 2
+            let dotRadius = ringOuter - 11
 
             let face = ZStack {
-                // 24칸 부채꼴
+                // 24칸 히트맵 도넛 (칸 사이 살짝 틈)
                 ForEach(0..<24, id: \.self) { hour in
                     let count = hourly[hour]
-                    Wedge(center: center, radius: ringRadius, startHour: Double(hour), endHour: Double(hour + 1))
-                        .fill(count > 0
-                              ? hourColors[hour].opacity(0.2 + 0.5 * Double(count) / Double(maxCount))
-                              : Color(.tertiarySystemFill))
-                    Wedge(center: center, radius: ringRadius, startHour: Double(hour), endHour: Double(hour + 1))
-                        .stroke(Color(.systemBackground), lineWidth: 1)
+                    Segment(center: center, radius: ringRadius, startHour: Double(hour) + 0.035, endHour: Double(hour) + 0.965)
+                        .stroke(count > 0
+                                ? hourColors[hour].opacity(0.3 + 0.55 * Double(count) / Double(maxCount))
+                                : Color(.tertiarySystemFill),
+                                lineWidth: ringWidth)
                 }
 
-                // 옮기는 중인 시간대 칸을 함께 밝힌다 (가운데 원보다 먼저 그려서 고리 부분만 보인다)
+                // 옮기는 중인 시간대 칸을 함께 밝힌다
                 if draggingID != nil {
                     let h = Double(min(23, max(0, Int(dragHour))))
-                    Wedge(center: center, radius: ringRadius, startHour: h, endHour: h + 1)
-                        .fill(Color.orange.opacity(0.35))
+                    Segment(center: center, radius: ringRadius, startHour: h + 0.035, endHour: h + 0.965)
+                        .stroke(Color.orange.opacity(0.35), lineWidth: ringWidth)
                         .allowsHitTesting(false)
                 }
 
@@ -73,12 +76,9 @@ struct DayClockView: View {
                         .position(point(center: center, radius: labelRadius, hour: Double(hour)))
                 }
 
-                // 가운데 구멍 + 합계 (조작 중에는 시각)
-                Circle()
-                    .fill(Color(.secondarySystemGroupedBackground))
-                    .frame(width: holeRadius * 2, height: holeRadius * 2)
-                    .position(center)
+                // 가운데: 합계와 종류별 개수 (조작 중에는 시각)
                 centerLabel
+                    .frame(width: holeRadius * 1.8)
                     .position(center)
 
                 // 오늘이면 지금 시각에 노란 선 (5분마다 다시 그림)
@@ -86,8 +86,8 @@ struct DayClockView: View {
                     TimelineView(.periodic(from: .now, by: 300)) { context in
                         let h = context.date.timeIntervalSince(dayStart) / 3600
                         Path { p in
-                            p.move(to: point(center: center, radius: holeRadius, hour: h))
-                            p.addLine(to: point(center: center, radius: ringRadius + 2, hour: h))
+                            p.move(to: point(center: center, radius: holeRadius - 4, hour: h))
+                            p.addLine(to: point(center: center, radius: ringOuter + 4, hour: h))
                         }
                         .stroke(Color.yellow, style: StrokeStyle(lineWidth: 4, lineCap: .round))
                     }
@@ -110,7 +110,7 @@ struct DayClockView: View {
                             .frame(width: isDragging ? 18 : 10, height: isDragging ? 18 : 10)
                     }
                     .modifier(Wiggle(active: isDragging))
-                    .position(point(center: center, radius: ringRadius - 8, hour: displayHour(entry)))
+                    .position(point(center: center, radius: dotRadius, hour: displayHour(entry)))
                     .zIndex(isDragging ? 1 : 0)
                 }
             }
@@ -168,20 +168,45 @@ struct DayClockView: View {
         hypot(a.x - b.x, a.y - b.y)
     }
 
-    /// 평소엔 합계, 조작 중엔 옮기거나 추가할 시각을 보여준다. 전환 애니메이션 없이 즉시 바뀐다.
+    /// 평소엔 합계(+ 종류가 둘 이상이면 종류별 개수), 조작 중엔 옮기거나 추가할 시각. 전환 애니메이션 없이 즉시 바뀐다.
     private var centerLabel: some View {
         let hour = activeHour
         let timeText = date(for: hour ?? 0).formatted(Date.FormatStyle(locale: .app).hour().minute())
-        return VStack(spacing: 0) {
+        return VStack(spacing: 2) {
             Text(hour != nil ? timeText : "\(entries.count)")
-                .font(.system(size: hour != nil ? 17 : 28, weight: .bold, design: .rounded))
+                .font(.system(size: hour != nil ? 22 : 40, weight: .bold, design: .rounded))
                 .monospacedDigit()
                 .foregroundStyle(hour != nil ? Color.orange : Color.primary)
             Text(hour != nil ? L("로 이동") : L("개비"))
                 .font(.caption)
                 .foregroundStyle(.secondary)
+            if hour == nil, kindCounts.count > 1 {
+                HStack(spacing: 8) {
+                    ForEach(kindCounts, id: \.color.description) { item in
+                        HStack(spacing: 3) {
+                            Circle().fill(item.color).frame(width: 6, height: 6)
+                            Text("\(item.count)")
+                                .font(.caption2.weight(.semibold))
+                                .monospacedDigit()
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .padding(.top, 4)
+            }
         }
+        .lineLimit(1)
+        .minimumScaleFactor(0.7)
         .transaction { $0.animation = nil }
+    }
+
+    /// 종류별 개수 (설정 순서대로, 종류 없음은 맨 뒤)
+    private var kindCounts: [(color: Color, count: Int)] {
+        let grouped = Dictionary(grouping: entries) { $0.kind?.id }
+        return grouped.values
+            .map { (order: $0.first?.kind?.order ?? .max, color: $0.first?.color ?? .gray, count: $0.count) }
+            .sorted { $0.order < $1.order }
+            .map { (color: $0.color, count: $0.count) }
     }
 
     /// 꾹 누른 자리 기준 메뉴: 한 개비 추가 · 한 개비 삭제
@@ -298,8 +323,8 @@ private struct Wiggle: ViewModifier {
     }
 }
 
-/// 중심에서 시작하는 부채꼴. hour 단위 각도(1시간 = 15°), 0시가 위쪽.
-private struct Wedge: Shape {
+/// 도넛 한 칸이 되는 호. hour 단위 각도(1시간 = 15°), 0시가 위쪽. 두껍게 stroke해서 칸을 만든다.
+private struct Segment: Shape {
     let center: CGPoint
     let radius: CGFloat
     let startHour: Double
@@ -307,12 +332,10 @@ private struct Wedge: Shape {
 
     func path(in rect: CGRect) -> Path {
         var p = Path()
-        p.move(to: center)
         p.addArc(center: center, radius: radius,
                  startAngle: .degrees(startHour * 15 - 90),
                  endAngle: .degrees(endHour * 15 - 90),
                  clockwise: false)
-        p.closeSubpath()
         return p
     }
 }
