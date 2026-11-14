@@ -4,7 +4,7 @@ import UIKit
 
 /// 24시간을 두꺼운 도넛 24칸으로 나누고, 피운 시각을 표시한다(히트맵).
 /// 0시가 맨 위, 시계 방향으로 진행. 피운 시간대 칸이 개수만큼 진해지고, 정확한 시각은 칸 위 점으로 찍힌다.
-/// 가운데에는 합계와 종류별 개수가 보인다.
+/// 가운데에는 합계와 마지막 기록이 언제였는지(오늘이면 "23분 전")가 보인다.
 /// - 어디든 꾹 누르면 살짝 눌리는 느낌과 함께 메뉴(한 개비 추가 · 한 개비 삭제)가 뜬다.
 ///   고리 위면 누른 자리의 시각, 가운데면 지금 시각이 기준이 된다.
 /// - 점을 꾹 누르자마자(메뉴가 뜨기 전에) 끌면 그 기록의 시각이 바뀐다. 살짝 닿기만 해서는 안 움직인다.
@@ -168,7 +168,7 @@ struct DayClockView: View {
         hypot(a.x - b.x, a.y - b.y)
     }
 
-    /// 평소엔 합계(+ 종류가 둘 이상이면 종류별 개수), 조작 중엔 옮기거나 추가할 시각. 전환 애니메이션 없이 즉시 바뀐다.
+    /// 평소엔 합계와 마지막 기록, 조작 중엔 옮기거나 추가할 시각. 전환 애니메이션 없이 즉시 바뀐다.
     private var centerLabel: some View {
         let hour = activeHour
         let timeText = date(for: hour ?? 0).formatted(Date.FormatStyle(locale: .app).hour().minute())
@@ -180,19 +180,12 @@ struct DayClockView: View {
             Text(hour != nil ? L("로 이동") : L("개비"))
                 .font(.caption)
                 .foregroundStyle(.secondary)
-            if hour == nil, kindCounts.count > 1 {
-                HStack(spacing: 8) {
-                    ForEach(kindCounts, id: \.color.description) { item in
-                        HStack(spacing: 3) {
-                            Circle().fill(item.color).frame(width: 6, height: 6)
-                            Text("\(item.count)")
-                                .font(.caption2.weight(.semibold))
-                                .monospacedDigit()
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                }
-                .padding(.top, 4)
+            if hour == nil, let lastText {
+                Text(lastText)
+                    .font(.caption.weight(.medium))
+                    .monospacedDigit()
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 6)
             }
         }
         .lineLimit(1)
@@ -200,13 +193,13 @@ struct DayClockView: View {
         .transaction { $0.animation = nil }
     }
 
-    /// 종류별 개수 (설정 순서대로, 종류 없음은 맨 뒤)
-    private var kindCounts: [(color: Color, count: Int)] {
-        let grouped = Dictionary(grouping: entries) { $0.kind?.id }
-        return grouped.values
-            .map { (order: $0.first?.kind?.order ?? .max, color: $0.first?.color ?? .gray, count: $0.count) }
-            .sorted { $0.order < $1.order }
-            .map { (color: $0.color, count: $0.count) }
+    /// 마지막 기록: 오늘이면 "마지막 23분 전", 지난 날이면 "마지막 오후 11:10". 기록이 없으면 nil.
+    private var lastText: String? {
+        guard let last = entries.map(\.timestamp).max() else { return nil }
+        let text = cal.isDateInToday(dayStart)
+            ? elapsedText(from: last, to: .now)
+            : last.formatted(Date.FormatStyle(locale: .app).hour().minute())
+        return L("마지막 %@", text)
     }
 
     /// 꾹 누른 자리 기준 메뉴: 한 개비 추가 · 한 개비 삭제

@@ -9,8 +9,6 @@ struct DayDetailView: View {
 
     @Environment(\.modelContext) private var context
     @Query private var entries: [SmokeEntry]
-    /// 전날 기록 ('어제 이맘때' 비교용)
-    @Query private var previousEntries: [SmokeEntry]
     @State private var newTime: Date
     @State private var newMemo = ""
     @State private var editMode: EditMode = .inactive
@@ -34,8 +32,6 @@ struct DayDetailView: View {
             sort: \SmokeEntry.timestamp,
             order: .reverse
         )
-        let prevStart = cal.date(byAdding: .day, value: -1, to: start) ?? start.addingTimeInterval(-86_400)
-        _previousEntries = Query(filter: #Predicate<SmokeEntry> { $0.timestamp >= prevStart && $0.timestamp < start })
         let isToday = cal.isDateInToday(start)
         let noon = cal.date(bySettingHour: 12, minute: 0, second: 0, of: start) ?? start
         _newTime = State(initialValue: isToday ? .now : noon)
@@ -47,22 +43,6 @@ struct DayDetailView: View {
     }
 
     private var isEditing: Bool { editMode.isEditing }
-    private var isToday: Bool { Calendar.app.isDateInToday(start) }
-
-    /// 오늘이면 "5분 전", 지난 날이면 그날 마지막 기록 시각
-    private var lastText: String {
-        guard let last = entries.first else { return "-" }
-        return isToday
-            ? elapsedText(from: last.timestamp, to: .now)
-            : last.timestamp.formatted(Date.FormatStyle(locale: .app).hour().minute())
-    }
-
-    /// 오늘이면 어제 지금 시각까지의 개수, 지난 날이면 전날 하루 전체
-    private var previousCount: Int {
-        guard isToday else { return previousEntries.count }
-        let cutoff = Date.now.addingTimeInterval(-86_400)
-        return previousEntries.filter { $0.timestamp <= cutoff }.count
-    }
 
     var body: some View {
         NavigationStack {
@@ -93,23 +73,6 @@ struct DayDetailView: View {
                     }
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
-                }
-
-                Section {
-                    HStack {
-                        Text(L("마지막"))
-                        Spacer()
-                        Text(lastText)
-                            .foregroundStyle(.secondary)
-                            .monospacedDigit()
-                    }
-                    HStack {
-                        Text(isToday ? L("어제 이맘때") : L("전날"))
-                        Spacer()
-                        Text(L("%d개비", previousCount))
-                            .foregroundStyle(.secondary)
-                            .monospacedDigit()
-                    }
                 }
 
                 Section {
