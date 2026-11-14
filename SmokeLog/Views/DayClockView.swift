@@ -175,13 +175,16 @@ struct DayClockView: View {
         let hour = activeHour
         let timeText = date(for: hour ?? 0).formatted(Date.FormatStyle(locale: .app).hour().minute())
         return VStack(spacing: 2) {
-            Text(hour != nil ? timeText : "\(entries.count)")
-                .font(.system(size: hour != nil ? 22 : 40, weight: .bold, design: .rounded))
-                .monospacedDigit()
-                .foregroundStyle(hour != nil ? Color.orange : Color.primary)
-            Text(hour != nil ? L("로 이동") : L("개비"))
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            // 숫자와 '개비'를 한 줄에 (글자 크기는 그대로)
+            HStack(alignment: .firstTextBaseline, spacing: 3) {
+                Text(hour != nil ? timeText : "\(entries.count)")
+                    .font(.system(size: hour != nil ? 22 : 40, weight: .bold, design: .rounded))
+                    .monospacedDigit()
+                    .foregroundStyle(hour != nil ? Color.orange : Color.primary)
+                Text(hour != nil ? L("로 이동") : L("개비"))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             if hour == nil {
                 if let lastText {
                     Text(lastText)
@@ -199,22 +202,20 @@ struct DayClockView: View {
         .transaction { $0.animation = nil }
     }
 
-    /// 어제 이맘때(지난 날이면 전날)와 비교. 많으면 빨간 ▲, 적으면 파란 ▼, 같으면 회색.
+    /// 어제 이맘때(지난 날이면 전날)와 비교. 많으면 빨간 ▲, 적으면 파란 ▼, 같으면 흰 −.
     private var comparison: some View {
         let diff = entries.count - previousCount
-        let color: Color = diff > 0 ? .red : diff < 0 ? .blue : .secondary
+        let color: Color = diff > 0 ? .red : diff < 0 ? .blue : .primary
         return HStack(spacing: 3) {
-            Text(cal.isDateInToday(dayStart) ? L("어제 이맘때") : L("전날"))
+            Text(cal.isDateInToday(dayStart) ? L("어제 이맘때보다") : L("전날보다"))
                 .foregroundStyle(.secondary)
             Text("\(previousCount)")
                 .fontWeight(.semibold)
                 .monospacedDigit()
                 .foregroundStyle(color)
-            if diff != 0 {
-                Image(systemName: diff > 0 ? "arrow.up" : "arrow.down")
-                    .font(.caption2.weight(.bold))
-                    .foregroundStyle(color)
-            }
+            Image(systemName: diff > 0 ? "arrow.up" : diff < 0 ? "arrow.down" : "minus")
+                .font(.caption2.weight(.bold))
+                .foregroundStyle(color)
         }
         .font(.caption)
     }
