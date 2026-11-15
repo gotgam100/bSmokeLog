@@ -202,14 +202,14 @@ struct DayClockView: View {
         .transaction { $0.animation = nil }
     }
 
-    /// 어제 이맘때(지난 날이면 전날)와 비교. 많으면 빨간 ▲, 적으면 파란 ▼, 같으면 흰 −.
+    /// 어제 이맘때(지난 날이면 전날)와 비교해 얼마나 늘거나 줄었는지. 많으면 빨간 ▲, 적으면 파란 ▼, 같으면 회색 −.
     private var comparison: some View {
         let diff = entries.count - previousCount
-        let color: Color = diff > 0 ? .red : diff < 0 ? .blue : .primary
+        let color: Color = diff > 0 ? .red : diff < 0 ? .blue : .secondary
         return HStack(spacing: 3) {
             Text(cal.isDateInToday(dayStart) ? L("어제 이맘때보다") : L("전날보다"))
                 .foregroundStyle(.secondary)
-            Text("\(previousCount)")
+            Text("\(abs(diff))")
                 .fontWeight(.semibold)
                 .monospacedDigit()
                 .foregroundStyle(color)
