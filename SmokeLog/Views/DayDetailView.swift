@@ -17,6 +17,7 @@ struct DayDetailView: View {
     @State private var selection = Set<PersistentIdentifier>()
     @State private var editing: SmokeEntry?
     @State private var confirmDelete = false
+    @State private var showHelp = false
 
     private let start: Date
     private let end: Date
@@ -74,16 +75,11 @@ struct DayDetailView: View {
                     .listRowInsets(EdgeInsets())
                 } header: {
                     screenHeader
-                } footer: {
-                    // 안내 두 줄. 기록이 없으면 끌 점이 없으니 첫 줄만.
-                    VStack(spacing: 4) {
-                        Text(L("원형 시간표를 꾹 눌러서 손쉽게 추가/삭제가 가능해요."))
-                        if !entries.isEmpty {
-                            Text(L("점을 클릭해 끌면 시간 변경이 가능해요."))
-                        }
-                    }
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity)
+                }
+
+                // 첫 담배 · 마지막 시간
+                Section {
+                    firstLastCard
                 }
 
                 Section {
@@ -202,6 +198,41 @@ struct DayDetailView: View {
         }
     }
 
+    /// 그날 첫 담배와 마지막 담배 시각. 오늘이면 마지막 아래에 '몇 분 전'도 함께.
+    private var firstLastCard: some View {
+        // entries는 최신순이라 마지막이 첫 담배
+        let first = entries.last?.timestamp
+        let last = entries.first?.timestamp
+        let isToday = Calendar.app.isDateInToday(start)
+        let timeStyle = Date.FormatStyle(locale: .app).hour().minute()
+        return HStack(spacing: 0) {
+            timeColumn(title: L("첫 담배"), time: first.map { $0.formatted(timeStyle) }, caption: nil)
+            Divider().frame(height: 36)
+            timeColumn(title: L("마지막"), time: last.map { $0.formatted(timeStyle) },
+                       caption: isToday ? last.map { elapsedText(from: $0, to: .now) } : nil)
+        }
+        .padding(.vertical, 4)
+    }
+
+    private func timeColumn(title: String, time: String?, caption: String?) -> some View {
+        VStack(spacing: 3) {
+            Text(title)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            Text(time ?? "–")
+                .font(.title3.weight(.semibold))
+                .monospacedDigit()
+                .foregroundStyle(time == nil ? .secondary : .primary)
+            Text(caption ?? " ")
+                .font(.caption2)
+                .monospacedDigit()
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .lineLimit(1)
+        .minimumScaleFactor(0.8)
+    }
+
     /// 화면 맨 위: 제목 + 설정, 그 아래 < 날짜 >
     private var screenHeader: some View {
         VStack(spacing: 14) {
@@ -231,9 +262,37 @@ struct DayDetailView: View {
             }
             .font(.body.weight(.semibold))
             .frame(maxWidth: .infinity)
+            // 원형표 오른쪽 위 작은 i: 누르면 사용 방법 팝업
+            .overlay(alignment: .trailing) { helpButton }
         }
         .textCase(nil)
         .padding(.bottom, 6)
+    }
+
+    private var helpButton: some View {
+        Button {
+            showHelp = true
+        } label: {
+            Image(systemName: "info.circle")
+                .font(.body)
+                .foregroundStyle(.secondary)
+                .frame(width: 36, height: 36)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(L("사용 방법"))
+        .popover(isPresented: $showHelp, arrowEdge: .top) {
+            VStack(alignment: .leading, spacing: 10) {
+                Label(L("원형 시간표를 꾹 눌러서 손쉽게 추가/삭제가 가능해요."), systemImage: "hand.tap")
+                Label(L("점을 클릭해 끌면 시간 변경이 가능해요."), systemImage: "hand.draw")
+            }
+            .font(.subheadline)
+            .lineLimit(nil)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding()
+            .frame(maxWidth: 300, alignment: .leading)
+            .presentationCompactAdaptation(.popover)
+        }
     }
 
     private func delete(at offsets: IndexSet) {

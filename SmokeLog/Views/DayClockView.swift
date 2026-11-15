@@ -170,7 +170,7 @@ struct DayClockView: View {
         hypot(a.x - b.x, a.y - b.y)
     }
 
-    /// 평소엔 합계와 마지막 기록, 조작 중엔 옮기거나 추가할 시각. 전환 애니메이션 없이 즉시 바뀐다.
+    /// 평소엔 합계와 전날 비교, 조작 중엔 옮기거나 추가할 시각. 전환 애니메이션 없이 즉시 바뀐다.
     private var centerLabel: some View {
         let hour = activeHour
         let timeText = date(for: hour ?? 0).formatted(Date.FormatStyle(locale: .app).hour().minute())
@@ -186,15 +186,8 @@ struct DayClockView: View {
                     .foregroundStyle(.secondary)
             }
             if hour == nil {
-                if let lastText {
-                    Text(lastText)
-                        .font(.caption.weight(.medium))
-                        .monospacedDigit()
-                        .foregroundStyle(.secondary)
-                        .padding(.top, 6)
-                }
                 comparison
-                    .padding(.top, 2)
+                    .padding(.top, 6)
             }
         }
         .lineLimit(1)
@@ -218,15 +211,6 @@ struct DayClockView: View {
                 .foregroundStyle(color)
         }
         .font(.caption)
-    }
-
-    /// 마지막 기록: 오늘이면 "마지막 23분 전", 지난 날이면 "마지막 오후 11:10". 기록이 없으면 nil.
-    private var lastText: String? {
-        guard let last = entries.map(\.timestamp).max() else { return nil }
-        let text = cal.isDateInToday(dayStart)
-            ? elapsedText(from: last, to: .now)
-            : last.formatted(Date.FormatStyle(locale: .app).hour().minute())
-        return L("마지막 %@", text)
     }
 
     /// 꾹 누른 자리 기준 메뉴: 한 개비 추가 · 한 개비 삭제

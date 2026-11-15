@@ -114,6 +114,9 @@ private let englishTable: [String: String] = [
     // 하루 기록
     "원형 시간표를 꾹 눌러서 손쉽게 추가/삭제가 가능해요.": "Press and hold the clock to add or delete.",
     "점을 클릭해 끌면 시간 변경이 가능해요.": "Drag a dot to change its time.",
+    "사용 방법": "How to use",
+    "첫 담배": "First",
+    "마지막": "Last",
     "합계": "Total",
     "기록이 없어요": "No entries",
     "기록": "Log",
