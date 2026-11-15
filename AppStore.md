@@ -41,7 +41,7 @@ B흡연로그 - 담배 기록
 
 ### 홍보 문구 (170자) — 심사 없이 수시로 바꿀 수 있어요
 ```
-담배를 피운 시각을 꾹 눌러 남기고, 24시간 원형 시간표와 달력으로 하루를 돌아보세요. 잔소리도 경고도 없이, 내 기록만 담백하게.
+피운 시각을 꾹 눌러 남기고, 원형 시간표와 달력으로 돌아보세요. 잔소리 없이 기록으로 줄여 가는 자기 관리, 그 끝은 B(비)흡연이에요.
 ```
 
 ### 키워드 (100자, 쉼표로 구분, 공백 없이)
@@ -52,23 +52,31 @@ B흡연로그 - 담배 기록
 
 ### 설명 (4000자)
 ```
-B흡연로그는 담배를 피운 시각을 가볍게 남기고, 하루를 한눈에 돌아보는 기록 앱이에요.
-금연을 강요하거나 경고를 띄우지 않아요. 언제, 얼마나 피웠는지 담담하게 보여 줄 뿐이에요. 줄이고 싶을 때 가장 먼저 필요한 건 정확한 기록이니까요.
+B흡연로그의 'B'는 '비(非)흡연'의 '비'예요. 언젠가 비흡연자가 되는 것, 이 앱이 향하는 곳이에요.
+
+그렇다고 오늘 당장 끊으라고 다그치지 않아요. 경고도 잔소리도 없이, 언제 얼마나 피웠는지 담담하게 보여 줄 뿐이에요. 내 흡연을 정확히 아는 것이 줄이기의 시작이고, 줄여 온 기록이 쌓일수록 금연도 가까워지니까요.
+기록하고, 돌아보고, 조금씩 줄이고, 결국 끊기. B흡연로그는 그 자기 관리의 과정을 함께하는 기록 앱이에요.
 
 ◼ 24시간 원형 시간표
 하루를 24칸 도넛으로 펼쳐 놓았어요. 피운 시간대가 개수만큼 진해지고, 정확한 시각은 점으로 찍혀요.
 · 어디든 꾹 누르면 그 자리의 시각으로 한 개비 추가, 가운데를 꾹 누르면 지금 시각으로 추가
 · 점을 잠깐 누른 뒤 끌면 시각 변경
-· 가운데에는 오늘 합계, 마지막으로 피운 지 얼마나 됐는지, 어제 이맘때와의 비교(↑↓)
+· 가운데에는 오늘 합계와 마지막 한 개비 뒤로 얼마나 지났는지
+· 아래 카드에는 첫 담배 시각과 마지막으로 피운 지 얼마나 됐는지
 
 ◼ 달력
-날짜마다 개수가 동그라미로 보이고, 테두리에 담배 종류 비율이 색으로 나뉘어요. 위에는 이달 하루 평균과 지난달 평균이 함께 있어요.
+날짜마다 개수가 동그라미로 보이고, 테두리에 담배 종류 비율이 색으로 나뉘어요. 위에는 이달 하루 평균과 지난달 평균, 그리고 오늘 개수가 어제 이맘때보다 늘었는지 줄었는지(↑↓)가 함께 있어요.
 · 날짜를 꾹 눌러 바로 추가·삭제
 · 여행이나 특별한 날은 "합계 제외"로 평균과 통계에서 빼기 (기록은 그대로)
 · 하루 기준선을 정하면 넘은 날의 숫자 색이 살짝 바뀌어요
 
 ◼ 통계
 1주 · 1개월 · 3개월 단위로 하루 평균, 합계, 평균 간격, 자주 피는 시간을 보여 줘요. 일별·시간대별·요일별 차트는 담배 종류별 색으로 쌓이고, 직전 기간과 비교한 한 줄 요약이 붙어요.
+
+◼ 기록이 자기 관리가 되도록
+· 어제 이맘때, 지난달, 직전 기간과 비교해 줄어드는 흐름을 확인
+· 하루 기준선으로 나만의 목표를 정하고, 넘은 날은 달력에서 바로 보기
+· 첫 담배를 늦추고 간격을 늘리는 것처럼, 작은 목표부터 숫자로 확인
 
 ◼ 앱을 열지 않고도 기록
 · 홈 화면 위젯: 오늘 개수와 마지막 시각, 버튼 한 번으로 +1
@@ -84,7 +92,7 @@ B흡연로그는 담배를 피운 시각을 가볍게 남기고, 하루를 한�
 · CSV 파일로 내보내 엑셀이나 Numbers에서 열기
 · 한국어 · 영어, 다크 모드 전용 디자인
 
-B흡연로그는 만 19세 이상 성인을 위한 기록 도구이며, 흡연을 권장하지 않습니다. 의학적 조언이나 금연 치료를 제공하지 않으며, 건강에 관한 결정은 의료 전문가와 상의하세요.
+B흡연로그는 만 19세 이상 성인이 스스로 흡연을 줄이고 끊을 수 있도록 돕는 기록 도구이며, 흡연을 권장하지 않습니다. 의학적 조언이나 금연 치료를 대신하지 않아요. 도움이 필요하면 보건소 금연클리닉이나 금연상담전화(1544-9030)를 함께 이용해 보세요.
 
 문의: yogotgam@gmail.com
 ```
@@ -125,7 +133,7 @@ Log in a tap. See your day.
 
 ### Promotional Text (170)
 ```
-Press and hold to log each cigarette, then see your day on a 24-hour clock and your month on a calendar. No nagging, no warnings — just your own numbers.
+Log each cigarette with a press and hold, then see your day on a 24-hour clock. No nagging, just your own numbers: self-care that leads, step by step, to quitting.
 ```
 
 ### Keywords (100)
@@ -135,23 +143,31 @@ smoking,cigarette,tracker,log,counter,quit,nicotine,vape,habit,widget,stats,diar
 
 ### Description (4000)
 ```
-B Smoke Log is a light, honest way to keep track of when you smoke — and to see your day at a glance.
-It doesn't push you to quit or flash warnings. It simply shows when and how much, because an accurate record is the first thing you need if you ever want to cut down.
+The "B" in B Smoke Log comes from the Korean word "비흡연" (bi-heup-yeon), which means non-smoking. Becoming a non-smoker one day is where this app is headed.
+
+That doesn't mean it pushes you to quit today. There are no warnings and no nagging. It simply shows when and how much you smoke, because knowing your habit is where cutting down begins, and every day of cutting down brings quitting closer.
+Log, look back, cut down little by little, and finally quit. B Smoke Log is a record-keeping app for that journey of self-care.
 
 ◼ 24-hour clock
 Your day laid out as a 24-segment ring. Hours you smoked get darker with each cigarette, and every entry is a dot at its exact time.
 · Press and hold anywhere to add one at that time; press and hold the center to add one right now
 · Hold a dot briefly and drag to change its time
-· In the middle: today's total, time since your last one, and how you compare with yesterday at this time (↑↓)
+· In the middle: today's total and how long it's been since your last one
+· Below it: your first cigarette of the day and how long since your last one
 
 ◼ Calendar
-Each day shows its count in a circle, with the ring split by type in color. Above it, this month's daily average next to last month's.
+Each day shows its count in a circle, with the ring split by type in color. Above it, this month's daily average next to last month's, plus today's count and whether you're up or down from yesterday at this time (↑↓).
 · Press and hold a date to add or delete
 · Mark a trip or an unusual day as "Exclude from totals" to leave it out of averages and stats (entries stay)
 · Set a daily threshold and days over it change color subtly
 
 ◼ Stats
 Daily average, total, average gap and your peak hour for the last week, month or 3 months. Daily, hourly and weekday charts stack by type, with a one-line comparison to the previous period.
+
+◼ Turn your log into self-care
+· Compare with yesterday at this time, last month and the previous period to see the trend going down
+· Set a daily threshold as your own goal and spot the days over it on the calendar
+· Start small, like delaying your first cigarette or stretching the gap, and watch it in numbers
 
 ◼ Log without opening the app
 · Home Screen widget: today's count, last time, and a one-tap +1
@@ -167,7 +183,7 @@ Split entries into cigarettes, e-cigarettes, nicotine gum or anything you like, 
 · Export as CSV and open it in Excel or Numbers
 · Korean and English, designed for dark mode
 
-B Smoke Log is a record-keeping tool for adults and does not encourage smoking. It does not provide medical advice or cessation treatment; please consult a healthcare professional about health decisions.
+B Smoke Log is a record-keeping tool that helps adults cut down and quit on their own, and it does not encourage smoking. It is not a substitute for medical advice or cessation treatment. If you need support, please reach out to a healthcare professional or a local quitline.
 
 Contact: yogotgam@gmail.com
 ```
@@ -206,18 +222,28 @@ First release of B Smoke Log.
 
 ---
 
-## 6. 스크린샷 계획
+## 6. 스크린샷 (완성본)
 
-필수 크기: **6.9형** (1320×2868, iPhone 16 Pro Max 등) 과 **6.5형** (1284×2778 또는 1242×2688). 세로 10장까지, 첫 3장이 검색 결과에 보여요. 시뮬레이터 iPhone 16 Pro Max / iPhone 11 Pro Max에서 `-seedSampleData -randomizeKinds`로 찍으면 돼요.
+완성 파일은 `design/appstore/`에 있어요. 순서대로 올리면 되고, 첫 3장이 검색 결과에 보여요.
 
-| # | 화면 | 위쪽 한 줄 문구 (한국어 / 영어) |
+- **6.9형** 1320×2868: `design/appstore/ko-6.9/01.png` ~ `07.png`
+- **6.5형** 1284×2778: `design/appstore/ko-6.5/01.png` ~ `07.png`
+- 앱스토어에서 보일 모습 미리보기: `design/appstore/preview/search-result.png`, `product-header.png`
+- 시뮬레이터 원본: `design/appstore/raw-ko/`
+
+예시 데이터는 연초만 쓴 한 달 반치 기록이에요(10월 하루 평균 9.3개비 → 11월 7.5개비). 디버그 빌드에서 실행 인자 `-screenshotData`로 만들고, 문구를 바꾸면 `swift design/appstore/make_screenshots.swift`로 다시 만들어요.
+
+| # | 화면 | 큰 문구 / 작은 문구 |
 |---|---|---|
-| 1 | 오늘 — 원형 시간표 (기록 8~10개) | 꾹 눌러 기록, 한눈에 하루 / Press and hold to log. See your whole day. |
-| 2 | 오늘 — 꾹 눌러 메뉴가 뜬 순간 | 어디든 꾹 누르면 그 시각에 한 개비 / Hold anywhere to add one at that time |
-| 3 | 달력 — 이달 평균 카드 + 종류 색 테두리 | 달력으로 한 달, 색으로 종류까지 / A month at a glance, colored by type |
-| 4 | 통계 — 요약 카드 4개 + 종류별 비율 | 평균, 간격, 자주 피는 시간 / Average, gap and peak hour |
-| 5 | 홈 화면 위젯 + 잠금 화면 위젯 | 앱을 열지 않고 +1 / Add one without opening the app |
-| 6 | 설정 — 담배 종류, iCloud, CSV | 내 데이터는 내 기기와 내 iCloud에만 / Your data stays on your device and your iCloud |
+| 1 | 오늘: 11월 13일 원형 시간표, 전날보다 3 ↓ | 하루가 한눈에 / 24시간 원형 시간표에 한 개비씩 쌓여요 |
+| 2 | 오늘: 원형표를 꾹 눌러 메뉴가 뜬 순간 | 꾹 누르면 기록 끝 / 누른 자리의 시각으로 바로 추가·삭제 |
+| 3 | 달력: 이달 평균 7.5 vs 지난달 9.3 | 한 달은 달력으로 / 이달 하루 평균을 지난달과 비교해요 |
+| 4 | 달력: 날짜를 꾹 눌러 추가·삭제·합계 제외 | 달력에서도 꾹 / 추가, 삭제, 합계에서 빼기까지 |
+| 5 | 통계 1개월: 요약 카드 4개 | 숫자로 보는 내 습관 / 하루 평균, 평균 간격, 자주 피는 시간 |
+| 6 | 통계: 일별·시간대별·요일별 차트 | 언제 많이 피는지 / 일별·시간대별·요일별로 나눠 봐요 |
+| 7 | 설정: 연초 하나, iCloud, CSV | 계정 없이, 내 기기에 / iCloud 동기화와 CSV 내보내기 |
+
+영어 스크린샷은 아직 없어요. 없으면 영어 페이지에도 한국어 스크린샷이 보여요.
 
 ---
 

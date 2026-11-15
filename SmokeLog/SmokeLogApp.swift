@@ -17,10 +17,16 @@ struct SmokeLogApp: App {
         if ProcessInfo.processInfo.arguments.contains("-seedSampleData") {
             SampleData.seed(into: container.mainContext)
         }
+        if ProcessInfo.processInfo.arguments.contains("-screenshotData") {
+            SampleData.seedScreenshot(into: container.mainContext)
+        }
         #endif
         KindStore.seedIfNeeded(container.mainContext)
         AppStore.refreshICloudAvailability()
         #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-screenshotData") {
+            SampleData.keepOnlyFirstKind(in: container.mainContext)
+        }
         if ProcessInfo.processInfo.arguments.contains("-randomizeKinds") {
             SampleData.randomizeKinds(in: container.mainContext)
         }
