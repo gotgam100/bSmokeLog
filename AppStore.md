@@ -202,26 +202,41 @@ First release of B Smoke Log.
 
 ## 6. 스크린샷 (완성본)
 
-완성 파일은 `design/appstore/`에 있어요. 순서대로 올리면 되고, 첫 3장이 검색 결과에 보여요.
+완성 파일은 `design/appstore/`에 있어요. 언어마다 순서대로 올리면 되고, 첫 3장이 검색 결과에 보여요.
 
-- **6.9형** 1320×2868: `design/appstore/ko-6.9/01.png` ~ `07.png`
-- **6.5형** 1284×2778: `design/appstore/ko-6.5/01.png` ~ `07.png`
-- 앱스토어에서 보일 모습 미리보기: `design/appstore/preview/search-result.png`, `product-header.png`
-- 시뮬레이터 원본: `design/appstore/raw-ko/`
+App Store Connect가 받는 세로 크기 두 가지로 만들었어요. 둘 중 하나만 올려도 돼요.
 
-예시 데이터는 연초만 쓴 한 달 반치 기록이에요(10월 하루 평균 9.3개비 → 11월 7.5개비). 디버그 빌드에서 실행 인자 `-screenshotData`로 만들고, 문구를 바꾸면 `swift design/appstore/make_screenshots.swift`로 다시 만들어요.
-
-| # | 화면 | 큰 문구 / 작은 문구 |
+| 언어 | 6.3형 1206×2622 | 6.1형 1179×2556 |
 |---|---|---|
-| 1 | 오늘: 11월 13일 원형 시간표, 전날보다 3 ↓ | 하루가 한눈에 / 24시간 원형 시간표에 한 개비씩 쌓여요 |
-| 2 | 오늘: 원형표를 꾹 눌러 메뉴가 뜬 순간 | 꾹 누르면 기록 끝 / 누른 자리의 시각으로 바로 추가·삭제 |
-| 3 | 달력: 이달 평균 7.5 vs 지난달 9.3 | 한 달은 달력으로 / 이달 하루 평균을 지난달과 비교해요 |
-| 4 | 달력: 날짜를 꾹 눌러 추가·삭제·합계 제외 | 달력에서도 꾹 / 추가, 삭제, 합계에서 빼기까지 |
-| 5 | 통계 1개월: 요약 카드 4개 | 숫자로 보는 내 습관 / 하루 평균, 평균 간격, 자주 피는 시간 |
-| 6 | 통계: 일별·시간대별·요일별 차트 | 언제 많이 피는지 / 일별·시간대별·요일별로 나눠 봐요 |
-| 7 | 설정: 연초 하나, iCloud, CSV | 계정 없이, 내 기기에 / iCloud 동기화와 CSV 내보내기 |
+| 한국어 | `design/appstore/ko-6.3/01.png` ~ `07.png` | `design/appstore/ko-6.1/01.png` ~ `07.png` |
+| 영어 | `design/appstore/en-6.3/01.png` ~ `07.png` | `design/appstore/en-6.1/01.png` ~ `07.png` |
 
-영어 스크린샷은 아직 없어요. 없으면 영어 페이지에도 한국어 스크린샷이 보여요.
+시뮬레이터 원본은 `design/appstore/raw-ko/`, `raw-en/`에 있어요. 예시 데이터는 연초만 쓴 한 달 반치 기록이에요(10월 하루 평균 9.3개비 → 11월 7.7개비). 디버그 빌드에서 실행 인자 `-screenshotData`로 만들고, 영어는 기기 언어를 영어로 두고 실행하면 메모도 영어로 들어가요. 문구를 바꾸면 `swift design/appstore/make_screenshots.swift`로 두 언어를 함께 다시 만들어요.
+
+| # | 화면 | 한국어 문구 | 영어 문구 |
+|---|---|---|---|
+| 1 | 오늘: 원형 시간표, 가운데 '마지막 N분 전' | 하루가 한눈에 / 24시간 원형 시간표에 한 개비씩 쌓여요 | Your day at a glance / Each one fills a 24-hour clock |
+| 2 | 오늘: 원형표를 꾹 눌러 메뉴가 뜬 순간 | 꾹 누르면 기록 끝 / 누른 자리의 시각으로 바로 추가·삭제 | Press and hold to log / Add or delete at the time you pressed |
+| 3 | 달력: 이달 평균 vs 지난달, 어제 이맘때 비교 | 한 달은 달력으로 / 이달 하루 평균을 지난달과 비교해요 | Your month by day / This month's average vs. last month's |
+| 4 | 달력: 날짜를 꾹 눌러 추가·삭제·합계 제외 | 달력에서도 꾹 / 추가, 삭제, 합계에서 빼기까지 | Hold any date / Add, delete or exclude from totals |
+| 5 | 통계 1개월: 요약 카드 4개 | 숫자로 보는 내 습관 / 하루 평균, 평균 간격, 자주 피는 시간 | Your habit in numbers / Daily average, average gap, peak hour |
+| 6 | 통계: 일별·시간대별·요일별 차트 | 언제 많이 피는지 / 일별·시간대별·요일별로 나눠 봐요 | When you smoke most / By day, by hour and by weekday |
+| 7 | 설정: 연초 하나, iCloud, CSV | 계정 없이, 내 기기에 / iCloud 동기화와 CSV 내보내기 | No account needed / iCloud sync and CSV export |
+
+### 헤더 및 검색 결과 (크리에이티브 자산)
+
+'제품 페이지 정보 → 헤더 및 검색 결과'에 언어별로 올리는 이미지예요. `swift design/appstore/make_creative.swift`로 두 언어를 함께 다시 만들어요.
+
+| 자리 | 한국어 | 영어 | 크기 | 안전 영역 |
+|---|---|---|---|---|
+| 헤더 | `creative/header-ko.png` | `creative/header-en.png` | 3840×1646 (21:9) | 1646×661, 가운데 |
+| 검색 결과 | `creative/search-ko.png` | `creative/search-en.png` | 3840×2560 (3:2) | 2168×1030, 가운데 |
+
+무늬 없는 짙은 배경에 문구 하나만 크게 넣었어요. 헤더는 문구와 원형 시간표, 검색 결과는 문구와 '오늘' 화면 한 장이에요.
+- 한국어: "흡연 기록을 손쉽게, / 스스로 줄여나가요."
+- 영어: "Easy smoking log, / cut down on your own."
+
+문구와 원형표, 앱 화면 윗부분은 모두 안전 영역 안에 있어요. 자산은 4+ 기준을 지켜야 해서 담배 그림 대신 원형 시간표를 썼어요.
 
 ---
 

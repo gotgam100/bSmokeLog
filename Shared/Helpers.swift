@@ -99,6 +99,12 @@ enum SampleData {
             (9, 50, "", 85), (11, 20, "커피 마시고", 80), (13, 30, "점심 먹고", 90), (15, 10, "", 70),
             (16, 50, "", 60), (18, 30, "", 65), (20, 0, "저녁 먹고", 85), (21, 50, "", 75), (23, 30, "", 55),
         ]
+        // 영어로 실행하면 메모도 영어로 (영문 스크린샷용)
+        let english: [String: String] = [
+            "출근길": "Commute", "커피 마시고": "With coffee", "점심 먹고": "After lunch",
+            "회의 끝나고": "After a meeting", "퇴근길": "Heading home", "저녁 먹고": "After dinner",
+        ]
+        let useEnglish = AppLanguage.current == .en
         func insert(day: Date, upTo limit: Date?, trend: Int) {
             let isWeekend = cal.isDateInWeekend(day)
             for (h, m, memo, chance) in (isWeekend ? weekend : weekday) {
@@ -109,7 +115,8 @@ enum SampleData {
                 let time = day.addingTimeInterval(TimeInterval(minute * 60))
                 if let limit, time > limit { continue }
                 let keepMemo = !memo.isEmpty && rng.next() % 3 == 0
-                context.insert(SmokeEntry(timestamp: time, memo: keepMemo ? memo : ""))
+                let text = useEnglish ? (english[memo] ?? memo) : memo
+                context.insert(SmokeEntry(timestamp: time, memo: keepMemo ? text : ""))
             }
         }
         // 지난달 1일부터 채워서 '지난달 평균'도 온전히 나오게
