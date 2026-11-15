@@ -189,7 +189,8 @@ struct CalendarView: View {
 
 // MARK: - 이달 요약
 
-/// 보이는 달의 하루 평균·합계와 지난달 평균. 이번 달이면 누르면 오늘 화면으로 간다.
+/// 보이는 달의 하루 평균·합계와 지난달 평균. 이번 달이면 오늘이 어제 이맘때보다 늘었는지 줄었는지도 보이고,
+/// 누르면 오늘 화면으로 간다.
 private struct MonthSummary: View {
     let month: Date
     let now: Date
@@ -227,31 +228,37 @@ private struct MonthSummary: View {
         let average = Double(thisCount) / Double(max(days, 1))
         let prevAverage = Double(prevCount) / Double(max(prevDays, 1))
 
-        let card = HStack(alignment: .bottom, spacing: 12) {
-            VStack(alignment: .leading, spacing: 0) {
-                Text(isCurrent ? L("이달 하루 평균") : L("%@ 하루 평균", month.formatted(Date.FormatStyle(locale: .app).month(.wide))))
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text(average.formatted(.number.precision(.fractionLength(1))))
-                        .font(.system(size: 44, weight: .bold, design: .rounded))
-                        .monospacedDigit()
-                        .contentTransition(.numericText())
-                    Text(L("개비"))
-                        .font(.title3)
+        let card = VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .bottom, spacing: 12) {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(isCurrent ? L("이달 하루 평균") : L("%@ 하루 평균", month.formatted(Date.FormatStyle(locale: .app).month(.wide))))
+                        .font(.subheadline)
                         .foregroundStyle(.secondary)
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                        Text(average.formatted(.number.precision(.fractionLength(1))))
+                            .font(.system(size: 44, weight: .bold, design: .rounded))
+                            .monospacedDigit()
+                            .contentTransition(.numericText())
+                        Text(L("개비"))
+                            .font(.title3)
+                            .foregroundStyle(.secondary)
+                    }
                 }
+                Spacer(minLength: 0)
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text(L("합계 %d개비", thisCount))
+                    Text(prevCount > 0 ? L("지난달 평균 %.1f개비", prevAverage) : L("지난달 기록 없음"))
+                }
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+                .padding(.bottom, 8)
             }
-            Spacer(minLength: 0)
-            VStack(alignment: .trailing, spacing: 4) {
-                Text(L("합계 %d개비", thisCount))
-                Text(prevCount > 0 ? L("지난달 평균 %.1f개비", prevAverage) : L("지난달 기록 없음"))
+            if isCurrent {
+                Divider()
+                todayRow(today: today)
             }
-            .font(.footnote)
-            .foregroundStyle(.secondary)
-            .lineLimit(1)
-            .minimumScaleFactor(0.8)
-            .padding(.bottom, 8)
         }
         .padding(.horizontal)
         .padding(.vertical, 12)
@@ -264,6 +271,35 @@ private struct MonthSummary: View {
         } else {
             card
         }
+    }
+}
+
+extension MonthSummary {
+    /// 오늘 개수를 어제 같은 시각까지와 비교해 얼마나 늘거나 줄었는지.
+    /// 많으면 빨간 ↑, 적으면 파란 ↓, 같으면 회색 −.
+    fileprivate func todayRow(today: Date) -> some View {
+        let cal = Calendar.app
+        let yesterday = cal.date(byAdding: .day, value: -1, to: today) ?? today.addingTimeInterval(-86_400)
+        let cutoff = now.addingTimeInterval(-86_400)
+        let todayCount = entries.filter { $0.timestamp >= today }.count
+        let yesterdayCount = entries.filter { $0.timestamp >= yesterday && $0.timestamp < today && $0.timestamp <= cutoff }.count
+        let diff = todayCount - yesterdayCount
+        let color: Color = diff > 0 ? .red : diff < 0 ? .blue : .secondary
+        return HStack(spacing: 3) {
+            Spacer(minLength: 0)
+            Text(L("어제 이맘때보다"))
+                .foregroundStyle(.secondary)
+            Text("\(abs(diff))")
+                .fontWeight(.semibold)
+                .monospacedDigit()
+                .foregroundStyle(color)
+            Image(systemName: diff > 0 ? "arrow.up" : diff < 0 ? "arrow.down" : "minus")
+                .font(.caption2.weight(.bold))
+                .foregroundStyle(color)
+        }
+        .font(.footnote)
+        .lineLimit(1)
+        .minimumScaleFactor(0.8)
     }
 }
 

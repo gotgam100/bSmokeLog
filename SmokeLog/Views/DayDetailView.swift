@@ -9,8 +9,8 @@ struct DayDetailView: View {
 
     @Environment(\.modelContext) private var context
     @Query private var entries: [SmokeEntry]
-    /// 전날 기록 ('어제 이맘때' 비교용)
-    @Query private var previousEntries: [SmokeEntry]
+    /// 가장 최근 기록 하나 (원형표 가운데 '마지막 N분 전'용)
+    @Query private var latestEntries: [SmokeEntry]
     @State private var newTime: Date
     @State private var newMemo = ""
     @State private var editMode: EditMode = .inactive
@@ -35,8 +35,9 @@ struct DayDetailView: View {
             sort: \SmokeEntry.timestamp,
             order: .reverse
         )
-        let prevStart = cal.date(byAdding: .day, value: -1, to: start) ?? start.addingTimeInterval(-86_400)
-        _previousEntries = Query(filter: #Predicate<SmokeEntry> { $0.timestamp >= prevStart && $0.timestamp < start })
+        var latest = FetchDescriptor<SmokeEntry>(sortBy: [SortDescriptor(\.timestamp, order: .reverse)])
+        latest.fetchLimit = 1
+        _latestEntries = Query(latest)
         let isToday = cal.isDateInToday(start)
         let noon = cal.date(bySettingHour: 12, minute: 0, second: 0, of: start) ?? start
         _newTime = State(initialValue: isToday ? .now : noon)
@@ -49,18 +50,16 @@ struct DayDetailView: View {
 
     private var isEditing: Bool { editMode.isEditing }
 
-    /// 오늘이면 어제 지금 시각까지의 개수, 지난 날이면 전날 하루 전체
-    private var previousCount: Int {
-        guard Calendar.app.isDateInToday(start) else { return previousEntries.count }
-        let cutoff = Date.now.addingTimeInterval(-86_400)
-        return previousEntries.filter { $0.timestamp <= cutoff }.count
+    /// 오늘을 볼 때만: 가장 최근에 피운 시각 (오늘 기록이 없으면 어제 이전 것)
+    private var lastSmoke: Date? {
+        Calendar.app.isDateInToday(start) ? latestEntries.first?.timestamp : nil
     }
 
     var body: some View {
         NavigationStack {
             List(selection: $selection) {
                 Section {
-                    DayClockView(entries: entries, dayStart: start, latest: latestAllowed, previousCount: previousCount) { entry, date in
+                    DayClockView(entries: entries, dayStart: start, latest: latestAllowed, lastSmoke: lastSmoke) { entry, date in
                         entry.timestamp = date
                     } onAdd: { date in
                         withAnimation { context.insert(SmokeEntry(timestamp: date, kind: KindStore.defaultKind(context))) }
@@ -203,18 +202,16 @@ struct DayDetailView: View {
         // entries는 최신순이라 마지막이 첫 담배
         let first = entries.last?.timestamp
         let last = entries.first?.timestamp
-        let isToday = Calendar.app.isDateInToday(start)
         let timeStyle = Date.FormatStyle(locale: .app).hour().minute()
         return HStack(spacing: 0) {
-            timeColumn(title: L("첫 담배"), time: first.map { $0.formatted(timeStyle) }, caption: nil)
+            timeColumn(title: L("첫 담배"), time: first.map { $0.formatted(timeStyle) })
             Divider().frame(height: 36)
-            timeColumn(title: L("마지막"), time: last.map { $0.formatted(timeStyle) },
-                       caption: isToday ? last.map { elapsedText(from: $0, to: .now) } : nil)
+            timeColumn(title: L("마지막 담배"), time: last.map { $0.formatted(timeStyle) })
         }
         .padding(.vertical, 4)
     }
 
-    private func timeColumn(title: String, time: String?, caption: String?) -> some View {
+    private func timeColumn(title: String, time: String?) -> some View {
         VStack(spacing: 3) {
             Text(title)
                 .font(.caption)
@@ -223,10 +220,6 @@ struct DayDetailView: View {
                 .font(.title3.weight(.semibold))
                 .monospacedDigit()
                 .foregroundStyle(time == nil ? .secondary : .primary)
-            Text(caption ?? " ")
-                .font(.caption2)
-                .monospacedDigit()
-                .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)
         .lineLimit(1)

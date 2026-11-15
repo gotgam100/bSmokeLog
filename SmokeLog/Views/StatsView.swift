@@ -158,7 +158,7 @@ struct StatsView: View {
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                 StatCard(title: L("하루 평균"), value: L("%.1f개비", s.average), caption: L("%d일 기준", s.trackedDays))
                 StatCard(title: L("합계"), value: L("%d개비", s.total), caption: L("최근 %@", range.title))
-                StatCard(title: L("평균 간격"), value: s.averageGap.map(durationText) ?? "-", caption: L("6시간 이상 공백 제외"))
+                StatCard(title: L("평균 간격"), value: s.averageGap.map(durationText) ?? "-", caption: L("자는 시간 포함"))
                 StatCard(title: L("자주 피는 시간"), value: s.peakHour.map(hourLabel) ?? "-", caption: L("가장 많이 기록된 시간대"))
             }
             if let text = comparisonText(s) {
@@ -391,9 +391,11 @@ struct Stats {
         }
         let symbols = cal.shortStandaloneWeekdaySymbols
 
+        // 자는 시간도 '안 피운 시간'이라 그대로 넣는다.
+        // 합계에서 뺀 날을 사이에 둔 간격만 뺀다(그날은 기록이 없어 간격을 알 수 없다).
         let gaps = zip(inRange, inRange.dropFirst())
+            .filter { pair in !excluded.contains { $0 > pair.0 && $0 < pair.1 } }
             .map { $1.timeIntervalSince($0) }
-            .filter { $0 < 6 * 3600 }
         averageGap = gaps.isEmpty ? nil : gaps.reduce(0, +) / Double(gaps.count)
 
         // 종류별로 나눈 값 (차트를 종류 색으로 쌓는 데 쓴다)

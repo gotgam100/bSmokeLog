@@ -4,7 +4,7 @@ import UIKit
 
 /// 24시간을 두꺼운 도넛 24칸으로 나누고, 피운 시각을 표시한다(히트맵).
 /// 0시가 맨 위, 시계 방향으로 진행. 피운 시간대 칸이 개수만큼 진해지고, 정확한 시각은 칸 위 점으로 찍힌다.
-/// 가운데에는 합계, 마지막 기록이 언제였는지(오늘이면 "23분 전"), 어제 이맘때와의 비교가 보인다.
+/// 가운데에는 합계와, 오늘이면 마지막 한 개비 뒤로 얼마나 지났는지("마지막 23분 전")가 보인다.
 /// - 어디든 꾹 누르면 살짝 눌리는 느낌과 함께 메뉴(한 개비 추가 · 한 개비 삭제)가 뜬다.
 ///   고리 위면 누른 자리의 시각, 가운데면 지금 시각이 기준이 된다.
 /// - 점을 꾹 누르자마자(메뉴가 뜨기 전에) 끌면 그 기록의 시각이 바뀐다. 살짝 닿기만 해서는 안 움직인다.
@@ -14,8 +14,8 @@ struct DayClockView: View {
     let dayStart: Date
     /// 옮길 수 있는 가장 늦은 시각 (오늘이면 현재 시각)
     let latest: Date
-    /// 어제 이맘때까지의 개수 (지난 날이면 전날 하루 전체)
-    let previousCount: Int
+    /// 가장 최근에 피운 시각 (오늘을 볼 때만. 어제 것일 수도 있다)
+    let lastSmoke: Date?
     let onMove: (SmokeEntry, Date) -> Void
     let onAdd: (Date) -> Void
     let onDelete: (SmokeEntry) -> Void
@@ -170,7 +170,7 @@ struct DayClockView: View {
         hypot(a.x - b.x, a.y - b.y)
     }
 
-    /// 평소엔 합계와 전날 비교, 조작 중엔 옮기거나 추가할 시각. 전환 애니메이션 없이 즉시 바뀐다.
+    /// 평소엔 합계와 마지막 한 개비 뒤 지난 시간, 조작 중엔 옮기거나 추가할 시각. 전환 애니메이션 없이 즉시 바뀐다.
     private var centerLabel: some View {
         let hour = activeHour
         let timeText = date(for: hour ?? 0).formatted(Date.FormatStyle(locale: .app).hour().minute())
@@ -185,32 +185,20 @@ struct DayClockView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            if hour == nil {
-                comparison
-                    .padding(.top, 6)
+            if hour == nil, let lastSmoke {
+                // 1분마다 다시 그려 지난 시간을 맞춘다
+                TimelineView(.periodic(from: .now, by: 60)) { context in
+                    Text(L("마지막 %@", elapsedText(from: lastSmoke, to: max(context.date, lastSmoke))))
+                        .font(.caption)
+                        .monospacedDigit()
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.top, 6)
             }
         }
         .lineLimit(1)
         .minimumScaleFactor(0.7)
         .transaction { $0.animation = nil }
-    }
-
-    /// 어제 이맘때(지난 날이면 전날)와 비교해 얼마나 늘거나 줄었는지. 많으면 빨간 ▲, 적으면 파란 ▼, 같으면 회색 −.
-    private var comparison: some View {
-        let diff = entries.count - previousCount
-        let color: Color = diff > 0 ? .red : diff < 0 ? .blue : .secondary
-        return HStack(spacing: 3) {
-            Text(cal.isDateInToday(dayStart) ? L("어제 이맘때보다") : L("전날보다"))
-                .foregroundStyle(.secondary)
-            Text("\(abs(diff))")
-                .fontWeight(.semibold)
-                .monospacedDigit()
-                .foregroundStyle(color)
-            Image(systemName: diff > 0 ? "arrow.up" : diff < 0 ? "arrow.down" : "minus")
-                .font(.caption2.weight(.bold))
-                .foregroundStyle(color)
-        }
-        .font(.caption)
     }
 
     /// 꾹 누른 자리 기준 메뉴: 한 개비 추가 · 한 개비 삭제
